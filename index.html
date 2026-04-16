@@ -1,16 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8" />
-  <title>Form</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O.R.A INTERACTIVE TERMINAL // 2026</title>
+    <style>
+        /* 核心视觉：极简高奢 + 工业风 */
+        :root { --bg: #0f0f0f; --text: #f9f8f4; --red: #8b0000; --border: #333; }
+        body { background: var(--bg); color: var(--text); font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
+        .mono { font-family: "Courier New", monospace; }
+        .container { border: 1px solid var(--border); width: 90%; max-width: 450px; padding: 40px 30px; background: #141414; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .container::after { content: "SECURE NODE"; position: absolute; top: -10px; left: 20px; background: var(--bg); color: var(--red); font-size: 10px; padding: 0 8px; letter-spacing: 2px; font-weight: bold; }
+        label { display: block; font-size: 10px; color: var(--red); letter-spacing: 2px; margin-bottom: 8px; font-weight: bold; }
+        select, .btn { width: 100%; padding: 15px; margin-bottom: 25px; background: #000; border: 1px solid var(--border); color: var(--text); font-size: 14px; box-sizing: border-box; outline: none; transition: 0.3s; }
+        select:focus { border-color: var(--red); }
+        .btn { border-color: var(--red); color: var(--red); cursor: pointer; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; }
+        .btn:hover { background: var(--red); color: #fff; box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); }
+        .hidden { display: none; }
+        /* 结果存档样式 */
+        .result-card { background: #fff; color: #000; padding: 35px; border: 2px solid #000; position: relative; }
+        .result-card::before { content: "ORA-RESULT-2026"; position: absolute; top: 0; right: 0; background: #000; color: #fff; font-size: 8px; padding: 4px 8px; font-family: monospace; }
+        .result-card p { margin: 15px 0; border-bottom: 1px solid #eee; padding-bottom: 5px; font-size: 14px; }
+        .result-card b { margin-left: 10px; font-size: 16px; }
+    </style>
 </head>
 <body>
-  <form name="favorite-season-survey" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
-    <input type="hidden" name="form-name" value="favorite-season-survey" />
-    <input type="text" name="name" />
-    <select name="season"></select>
-    <textarea name="reason"></textarea>
-    <input name="bot-field" />
-  </form>
+
+    <div id="s1" class="container">
+        <div class="mono" style="font-size: 9px; opacity: 0.5; text-align: center; margin-bottom: 30px; letter-spacing: 3px;">O.R.A INTERACTIVE TERMINAL // V2.9</div>
+        
+        <label>>> 真实年纪 / AGE</label>
+        <select id="age">
+            <option value="" disabled selected>选择生命周期阶段...</option>
+            <option>25-35岁</option>
+            <option>35-45岁</option>
+            <option>45-55岁</option>
+            <option>55岁以上</option>
+        </select>
+
+        <label>>> 战略领域 / SCENARIO</label>
+        <select id="scn">
+            <option value="" disabled selected>选择核验场景...</option>
+            <option>出外</option><option>功名</option><option>官讼</option><option>合伙</option>
+            <option>婚姻</option><option>家宅</option><option>开铺</option><option>六甲</option>
+            <option>谋事</option><option>谋望</option><option>求财</option><option>生意综合</option>
+            <option>失物</option><option>行人</option><option>学艺</option><option>占病</option>
+            <option>置货</option>
+        </select>
+
+        <button class="btn" onclick="go2()">[ 建立安全链接 / ENTER ]</button>
+    </div>
+
+    <div id="s2" class="container hidden" style="text-align: center;">
+        <div class="mono" style="font-size: 9px; opacity: 0.4; margin-bottom: 20px;">>> DATA EXTRACTION IN PROGRESS</div>
+        <div id="num" class="mono" style="font-size: 48px; font-weight: bold; margin: 40px 0; color: var(--red);">--</div>
+        
+        <button id="draw" class="btn" onclick="runDraw()">[ 启动摇签 / EXTRACT ]</button>
+        
+        <div id="v-box" class="hidden">
+            <div style="display: flex; justify-content: space-around; margin: 30px 0;">
+                <div id="c1" style="border: 1px solid #444; width: 60px; height: 60px; line-height: 60px; font-size: 20px; font-weight: bold; color: #666;">?</div>
+                <div id="c2" style="border: 1px solid #444; width: 60px; height: 60px; line-height: 60px; font-size: 20px; font-weight: bold; color: #666;">?</div>
+            </div>
+            <div id="msg" style="font-size: 13px; height: 40px; line-height: 1.5;"></div>
+            <button id="v-btn" class="btn" onclick="verify()">[ 掷圣杯 / VERIFY ]</button>
+            <button id="next" class="btn hidden" onclick="go3()">[ 生成机密档案 / ARCHIVE ]</button>
+            <button id="retry" class="btn hidden" onclick="location.reload()">[ 重新尝试 / RETRY ]</button>
+        </div>
+    </div>
+
+    <div id="s3" class="hidden" style="width: 90%; max-width: 400px;">
+        <div class="result-card">
+            <div class="mono" style="font-weight: bold; font-size: 11px; letter-spacing: 1px; margin-bottom: 25px;">>> O.R.A SYSTEM ARCHIVE LOCK</div>
+            <p>数字签位：<b id="f-sign"></b></p>
+            <p>咨询场景：<b id="f-scn"></b></p>
+            <p>真实年纪：<b id="f-age"></b></p>
+            <div style="text-align: center; color: #8b0000; font-size: 12px; margin-top: 40px; padding-top: 15px; border-top: 1px dashed #ccc;">
+                <b>请立即截图本页面，并回传给主理人</b><br>
+                <span style="font-size: 10px; opacity: 0.7;">以激活 72 小时战略窗口</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let d = {a:'', s:'', n:0};
+        function go2() {
+            d.a = document.getElementById('age').value; 
+            d.s = document.getElementById('scn').value;
+            if(!d.a || !d.s) return alert("ERR: 参数未校准。");
+            document.getElementById('s1').classList.add('hidden'); 
+            document.getElementById('s2').classList.remove('hidden');
+        }
+        function runDraw() {
+            let n = document.getElementById('num'), c = 0;
+            let i = setInterval(() => { 
+                n.innerText = Math.floor(Math.random()*51)+1; 
+                c++; 
+                if(c>20){ 
+                    clearInterval(i); 
+                    d.n=n.innerText; 
+                    document.getElementById('v-box').classList.remove('hidden'); 
+                    document.getElementById('draw').classList.add('hidden'); 
+                } 
+            }, 50);
+        }
+        function verify() {
+            let r1 = Math.random()>0.5?'阳':'阴', r2 = Math.random()>0.5?'阳':'阴';
+            document.getElementById('c1').innerText = r1; 
+            document.getElementById('c1').style.color = "#fff";
+            document.getElementById('c2').innerText = r2; 
+            document.getElementById('c2').style.color = "#fff";
+            let m = document.getElementById('msg'), v = document.getElementById('v-btn');
+            if(r1!==r2) { 
+                m.innerHTML="<b style='color:#8b0000'>【圣杯】(神性应允)</b><br>通道开启，系统已锁定专属灵签。"; 
+                v.classList.add('hidden'); 
+                document.getElementById('next').classList.remove('hidden'); 
+            }
+            else { 
+                let type = r1==='阳'?'笑':'阴';
+                m.innerHTML = "<b>【"+type+"杯】(能量摩擦)</b><br>环境杂讯过重，请重新建立连接。"; 
+                v.classList.add('hidden'); 
+                document.getElementById('retry').classList.remove('hidden'); 
+            }
+        }
+        function go3() {
+            document.getElementById('s2').classList.add('hidden'); 
+            document.getElementById('s3').classList.remove('hidden');
+            document.getElementById('f-sign').innerText = "第 "+d.n+" 签"; 
+            document.getElementById('f-scn').innerText = d.s; 
+            document.getElementById('f-age').innerText = d.a;
+        }
+    </script>
 </body>
 </html>

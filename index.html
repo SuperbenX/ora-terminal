@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>O.R.A INTERACTIVE TERMINAL // 2026</title>
+    <title>O.R.A 战略决策终端 // 2026</title>
     <style>
         :root {
             --bg: #0a0a0a;
@@ -21,7 +21,7 @@
                 linear-gradient(90deg, rgba(18, 18, 18, 0.5) 1px, transparent 1px);
             background-size: 30px 30px;
             color: var(--text);
-            font-family: sans-serif;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -44,7 +44,6 @@
             text-align: center;
         }
 
-        /* 顶部 Logo 样式：自动灰度化适配暗黑风格 */
         .brand-logo {
             width: 140px;
             height: auto;
@@ -54,7 +53,7 @@
         }
 
         .container::before {
-            content: "SECURE NODE ID: ORA-2026";
+            content: "安全节点: ORA-2026";
             position: absolute;
             top: -12px; left: 20px;
             background: var(--bg);
@@ -68,7 +67,7 @@
         label {
             display: block;
             text-align: left;
-            font-size: 9px;
+            font-size: 10px;
             color: var(--accent);
             letter-spacing: 2px;
             margin-bottom: 10px;
@@ -82,9 +81,11 @@
             background: #000;
             border: 1px solid var(--border);
             color: var(--text);
-            font-size: 13px;
+            font-size: 14px;
             box-sizing: border-box;
             outline: none;
+            border-radius: 0;
+            -webkit-appearance: none;
         }
 
         .btn {
@@ -93,11 +94,12 @@
             background: transparent;
             border: 1px solid var(--accent);
             color: var(--accent);
-            font-size: 11px;
+            font-size: 13px;
             font-weight: bold;
             letter-spacing: 3px;
             cursor: pointer;
             transition: all 0.3s;
+            border-radius: 0;
         }
 
         .btn:hover {
@@ -123,8 +125,8 @@
             align-items: center;
         }
 
-        .result-label { font-size: 10px; font-weight: 900; color: #666; }
-        .result-value { font-size: 16px; font-weight: 900; }
+        .result-label { font-size: 11px; font-weight: 900; color: #666; }
+        .result-value { font-size: 18px; font-weight: 900; }
 
         .hidden { display: none; }
 
@@ -145,21 +147,20 @@
     <div class="scanline"></div>
 
     <div id="s1" class="container">
-        <img src="logo.png" alt="O.R.A" class="brand-logo">
-        
+        <img src="logo.png" alt="O.R.A" class="brand-logo" onerror="this.style.display='none'">
         <div class="mono" style="font-size: 9px; opacity: 0.4; margin-bottom: 35px; letter-spacing: 4px;">
-            >> SYSTEM GATEWAY V2.9 <<
+            >> 终端系统网关 V2.9 <<
         </div>
         
-        <label>AGE BASELINE // 真实年纪</label>
+        <label>真实年纪 // AGE BASELINE</label>
         <select id="age">
-            <option value="" disabled selected>SELECT AGE RANGE...</option>
+            <option value="" disabled selected>请选择生命周期阶段...</option>
             <option>25-35岁</option><option>35-45岁</option><option>45-55岁</option><option>55岁以上</option>
         </select>
 
-        <label>SCENARIO // 战略场景</label>
+        <label>战略场景 // SCENARIO</label>
         <select id="scn">
-            <option value="" disabled selected>SELECT STRATEGY...</option>
+            <option value="" disabled selected>请选择核验场景...</option>
             <option>出外</option><option>功名</option><option>官讼</option><option>合伙</option>
             <option>婚姻</option><option>家宅</option><option>开铺</option><option>六甲</option>
             <option>谋事</option><option>谋望</option><option>求财</option><option>生意综合</option>
@@ -167,71 +168,110 @@
             <option>置货</option>
         </select>
 
-        <button class="btn" onclick="go2()">[ CONNECT TO TERMINAL ]</button>
+        <button class="btn" onclick="go2()">[ 建立安全链接 ]</button>
     </div>
 
     <div id="s2" class="container hidden">
         <div class="mono" style="font-size: 10px; color: var(--accent); margin-bottom: 40px; letter-spacing: 2px;">
-            SYSTEM STATUS: DATA EXTRACTING...
+            系统状态: 数据提取中...
         </div>
         <div id="num" class="mono" style="font-size: 56px; font-weight: bold; margin: 40px 0; color: var(--accent);">--</div>
         
-        <button id="draw" class="btn" onclick="runDraw()">[ EXECUTE EXTRACTION ]</button>
+        <button id="draw" class="btn" onclick="runDraw()">[ 执行数据提取 ]</button>
         
         <div id="v-box" class="hidden">
             <div style="display: flex; justify-content: space-around; margin: 40px 0;">
-                <div id="c1" style="border: 1px solid #333; width: 65px; height: 65px; line-height: 65px; color: #555;">?</div>
-                <div id="c2" style="border: 1px solid #333; width: 65px; height: 65px; line-height: 65px; color: #555;">?</div>
+                <div id="c1" style="border: 1px solid #333; width: 65px; height: 65px; line-height: 65px; color: #555; background: #000; font-weight: bold;">?</div>
+                <div id="c2" style="border: 1px solid #333; width: 65px; height: 65px; line-height: 65px; color: #555; background: #000; font-weight: bold;">?</div>
             </div>
-            <div id="msg" class="mono" style="font-size: 11px; height: 40px; color: #888;"></div>
-            <button id="v-btn" class="btn" onclick="verify()">[ ENERGY VERIFICATION ]</button>
-            <button id="next" class="btn hidden" onclick="go3()">[ GENERATE ARCHIVE ]</button>
-            <button id="retry" class="btn hidden" onclick="location.reload()">[ SYSTEM RESET ]</button>
+            <div id="msg" style="font-size: 13px; height: 40px; color: #888; margin-bottom: 20px;"></div>
+            <button id="v-btn" class="btn" onclick="verify()">[ 启动能量校准 ]</button>
+            <button id="next" class="btn hidden" onclick="go3()">[ 生成机密档案 ]</button>
+            <button id="retry" class="btn hidden" onclick="resetVerify()">[ 重新提取数据 ]</button>
         </div>
     </div>
 
     <div id="s3" class="hidden" style="width: 90%; max-width: 400px;">
         <div class="result-card">
             <div class="mono" style="font-weight: 900; font-size: 11px; margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 10px;">
-                CONFIDENTIAL: O.R.A ARCHIVE
+                CONFIDENTIAL: O.R.A 战略存档
             </div>
-            <div class="result-item"><span class="result-label">SIGN ID</span><span id="f-sign" class="result-value">--</span></div>
-            <div class="result-item"><span class="result-label">SCENARIO</span><span id="f-scn" class="result-value">--</span></div>
-            <div class="result-item"><span class="result-label">BASELINE</span><span id="f-age" class="result-value">--</span></div>
+            <div class="result-item"><span class="result-label">数字签位</span><span id="f-sign" class="result-value">--</span></div>
+            <div class="result-item"><span class="result-label">咨询场景</span><span id="f-scn" class="result-value">--</span></div>
+            <div class="result-item"><span class="result-label">年龄基准</span><span id="f-age" class="result-value">--</span></div>
             <div style="text-align: center; color: #8b0000; margin-top: 40px; padding-top: 20px; border-top: 1px dashed #ccc;">
-                <b style="font-size: 13px;">请立即截图并回传主理人</b>
+                <b style="font-size: 14px;">请立即截图并回传主理人</b><br>
+                <span style="font-size: 10px; opacity: 0.6; letter-spacing: 1px;">72小时战略窗口已激活</span>
             </div>
         </div>
     </div>
 
     <script>
         let d = {a:'', s:'', n:0};
+        
         function go2() {
-            d.a = document.getElementById('age').value; d.s = document.getElementById('scn').value;
-            if(!d.a || !d.s) return;
-            document.getElementById('s1').classList.add('hidden'); document.getElementById('s2').classList.remove('hidden');
+            d.a = document.getElementById('age').value; 
+            d.s = document.getElementById('scn').value;
+            if(!d.a || !d.s) return alert("请先完成参数校准");
+            document.getElementById('s1').classList.add('hidden'); 
+            document.getElementById('s2').classList.remove('hidden');
         }
+
         function runDraw() {
             let n = document.getElementById('num'), c = 0;
-            let i = setInterval(() => { n.innerText = Math.floor(Math.random()*51)+1; c++; if(c>20){ clearInterval(i); d.n=n.innerText; document.getElementById('v-box').classList.remove('hidden'); document.getElementById('draw').classList.add('hidden'); } }, 50);
+            let i = setInterval(() => { 
+                n.innerText = Math.floor(Math.random()*51)+1; 
+                c++; 
+                if(c>20){ 
+                    clearInterval(i); 
+                    d.n=n.innerText; 
+                    document.getElementById('v-box').classList.remove('hidden'); 
+                    document.getElementById('draw').classList.add('hidden'); 
+                } 
+            }, 50);
         }
+
         function verify() {
             let r1 = Math.random()>0.5?'阳':'阴', r2 = Math.random()>0.5?'阳':'阴';
             const c1 = document.getElementById('c1'), c2 = document.getElementById('c2');
             c1.innerText = r1; c1.style.color = "#fff"; c1.style.borderColor = "#8b0000";
             c2.innerText = r2; c2.style.color = "#fff"; c2.style.borderColor = "#8b0000";
+            
             let m = document.getElementById('msg'), v = document.getElementById('v-btn');
             if(r1!==r2) { 
                 m.innerHTML="<span style='color:#fff'>【圣杯】能量校准完成</span>"; 
-                v.classList.add('hidden'); document.getElementById('next').classList.remove('hidden'); 
+                v.classList.add('hidden'); 
+                document.getElementById('next').classList.remove('hidden'); 
             } else { 
-                m.innerHTML = "能量冲突，系统自毁重置中..."; 
-                v.classList.add('hidden'); document.getElementById('retry').classList.remove('hidden'); 
+                let type = r1==='阳'?'笑':'阴';
+                m.innerHTML = "【"+type+"杯】能量场冲突，请清除杂念"; 
+                v.classList.add('hidden'); 
+                document.getElementById('retry').classList.remove('hidden'); 
             }
         }
+
+        // 核心逻辑改进：失败后仅重置校验状态，不刷新页面，不回第一页
+        function resetVerify() {
+            document.getElementById('num').innerText = "--";
+            document.getElementById('draw').classList.remove('hidden');
+            document.getElementById('v-box').classList.add('hidden');
+            document.getElementById('retry').classList.add('hidden');
+            document.getElementById('v-btn').classList.remove('hidden');
+            document.getElementById('c1').innerText = "?";
+            document.getElementById('c1').style.color = "#555";
+            document.getElementById('c1').style.borderColor = "#333";
+            document.getElementById('c2').innerText = "?";
+            document.getElementById('c2').style.color = "#555";
+            document.getElementById('c2').style.borderColor = "#333";
+            document.getElementById('msg').innerText = "";
+        }
+
         function go3() {
-            document.getElementById('s2').classList.add('hidden'); document.getElementById('s3').classList.remove('hidden');
-            document.getElementById('f-sign').innerText = "NO." + d.n; document.getElementById('f-scn').innerText = d.s; document.getElementById('f-age').innerText = d.a;
+            document.getElementById('s2').classList.add('hidden'); 
+            document.getElementById('s3').classList.remove('hidden');
+            document.getElementById('f-sign').innerText = "第 " + d.n + " 签"; 
+            document.getElementById('f-scn').innerText = d.s; 
+            document.getElementById('f-age').innerText = d.a;
         }
     </script>
 </body>

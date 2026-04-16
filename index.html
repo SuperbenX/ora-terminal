@@ -5,35 +5,173 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>O.R.A INTERACTIVE TERMINAL // 2026</title>
     <style>
-        :root { --bg: #0f0f0f; --text: #f9f8f4; --red: #8b0000; --border: #333; }
-        body { background: var(--bg); color: var(--text); font-family: sans-serif; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; overflow: hidden; }
-        .mono { font-family: "Courier New", monospace; }
-        .container { border: 1px solid var(--border); width: 90%; max-width: 420px; padding: 40px 30px; background: #141414; position: relative; }
-        .container::after { content: "SECURE NODE"; position: absolute; top: -10px; left: 20px; background: var(--bg); color: var(--red); font-size: 10px; padding: 0 8px; letter-spacing: 2px; font-weight: bold; }
-        label { display: block; font-size: 10px; color: var(--red); letter-spacing: 2px; margin-bottom: 8px; font-weight: bold; }
-        select, .btn { width: 100%; padding: 15px; margin-bottom: 25px; background: #000; border: 1px solid var(--border); color: var(--text); font-size: 14px; box-sizing: border-box; outline: none; }
-        .btn { border-color: var(--red); color: var(--red); cursor: pointer; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
-        .btn:hover { background: var(--red); color: #fff; }
+        :root {
+            --bg: #0a0a0a;
+            --text: #f9f8f4;
+            --accent: #8b0000;
+            --panel: rgba(20, 20, 20, 0.95);
+            --border: #2a2a2a;
+            --glow: rgba(139, 0, 0, 0.3);
+        }
+
+        body {
+            background-color: var(--bg);
+            background-image: 
+                linear-gradient(rgba(18, 18, 18, 0.5) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 18, 18, 0.5) 1px, transparent 1px);
+            background-size: 30px 30px; /* 微动格栅底纹 */
+            color: var(--text);
+            font-family: "Inter", "Microsoft YaHei", sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .mono { font-family: "Courier New", monospace; text-transform: uppercase; }
+
+        /* 主容器：增加悬浮感 */
+        .container {
+            border: 1px solid var(--border);
+            width: 90%;
+            max-width: 420px;
+            padding: 40px;
+            background: var(--panel);
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+        }
+
+        /* 装饰角标 */
+        .container::before {
+            content: "SECURE NODE ID: ORA-2026";
+            position: absolute;
+            top: -12px; left: 20px;
+            background: var(--bg);
+            color: var(--accent);
+            font-size: 9px;
+            padding: 0 8px;
+            letter-spacing: 2px;
+            font-family: monospace;
+            border: 1px solid var(--border);
+        }
+
+        /* 极简标签 */
+        label {
+            display: block;
+            font-size: 9px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            font-weight: 900;
+        }
+
+        /* 下拉框：去掉系统默认样式 */
+        select {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 30px;
+            background: #000;
+            border: 1px solid var(--border);
+            color: var(--text);
+            font-size: 13px;
+            box-sizing: border-box;
+            outline: none;
+            cursor: pointer;
+            transition: border 0.3s;
+        }
+
+        select:hover { border-color: #555; }
+        select:focus { border-color: var(--accent); }
+
+        /* 按钮：增加内发光与呼吸感 */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 20px var(--glow);
+        }
+
+        /* 结果存档卡片：高对比度设计 */
+        .result-card {
+            background: #fff;
+            color: #1a1a1a;
+            padding: 40px 30px;
+            border: 3px solid #1a1a1a;
+            position: relative;
+            box-shadow: 0 0 30px rgba(255,255,255,0.1);
+        }
+
+        .result-card::after {
+            content: "DECRYPTED DOCUMENT";
+            position: absolute;
+            bottom: 10px; right: 10px;
+            font-size: 8px; font-family: monospace; opacity: 0.3;
+        }
+
+        .result-item {
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .result-label { font-size: 10px; font-weight: 900; color: #666; font-family: monospace; }
+        .result-value { font-size: 16px; font-weight: 900; }
+
         .hidden { display: none; }
-        .result-card { background: #fff; color: #000; padding: 30px; border: 2px solid #000; position: relative; }
-        .result-card p { margin: 12px 0; border-bottom: 1px solid #eee; padding-bottom: 5px; font-size: 14px; }
-        .result-card b { margin-left: 10px; }
+
+        /* 扫描线动效 */
+        .scanline {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 2px;
+            background: rgba(139, 0, 0, 0.1);
+            z-index: 100;
+            pointer-events: none;
+            animation: scan 6s linear infinite;
+        }
+        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
+
+        /* 摇签跑码动画 */
+        .rolling { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
     </style>
 </head>
 <body>
 
+    <div class="scanline"></div>
+
     <div id="s1" class="container">
-        <div class="mono" style="font-size: 9px; opacity: 0.5; text-align: center; margin-bottom: 30px; letter-spacing: 2px;">O.R.A INTERACTIVE TERMINAL // V2.9</div>
+        <div class="mono" style="font-size: 9px; opacity: 0.4; text-align: center; margin-bottom: 35px; letter-spacing: 4px;">
+            >> O.R.A SYSTEM GATEWAY V2.9 <<
+        </div>
         
-        <label>>> 真实年纪 / AGE</label>
+        <label>AGE BASELINE // 真实年纪</label>
         <select id="age">
-            <option value="" disabled selected>选择生命周期阶段...</option>
+            <option value="" disabled selected>SELECT AGE RANGE...</option>
             <option>25-35岁</option><option>35-45岁</option><option>45-55岁</option><option>55岁以上</option>
         </select>
 
-        <label>>> 战略领域 / SCENARIO</label>
+        <label>SCENARIO // 战略场景</label>
         <select id="scn">
-            <option value="" disabled selected>选择核验场景...</option>
+            <option value="" disabled selected>SELECT STRATEGY...</option>
             <option>出外</option><option>功名</option><option>官讼</option><option>合伙</option>
             <option>婚姻</option><option>家宅</option><option>开铺</option><option>六甲</option>
             <option>谋事</option><option>谋望</option><option>求财</option><option>生意综合</option>
@@ -41,32 +179,51 @@
             <option>置货</option>
         </select>
 
-        <button class="btn" onclick="go2()">[ 建立安全链接 / ENTER ]</button>
+        <button class="btn" onclick="go2()">[ CONNECT TO TERMINAL ]</button>
     </div>
 
     <div id="s2" class="container hidden" style="text-align: center;">
-        <div id="num" class="mono" style="font-size: 48px; font-weight: bold; margin: 40px 0; color: var(--red);">--</div>
-        <button id="draw" class="btn" onclick="runDraw()">[ 启动摇签 / EXTRACT ]</button>
+        <div class="mono" style="font-size: 10px; color: var(--accent); margin-bottom: 40px; letter-spacing: 2px;">
+            SYSTEM STATUS: DATA EXTRACTING...
+        </div>
+        <div id="num" class="mono rolling" style="font-size: 56px; font-weight: bold; margin: 40px 0;">--</div>
+        
+        <button id="draw" class="btn" onclick="runDraw()">[ EXECUTE EXTRACTION ]</button>
+        
         <div id="v-box" class="hidden">
-            <div style="display: flex; justify-content: space-around; margin: 30px 0;">
-                <div id="c1" style="border: 1px solid #444; width: 60px; height: 60px; line-height: 60px;">?</div>
-                <div id="c2" style="border: 1px solid #444; width: 60px; height: 60px; line-height: 60px;">?</div>
+            <div style="display: flex; justify-content: space-around; margin: 40px 0;">
+                <div id="c1" style="border: 1px solid #333; width: 65px; height: 65px; line-height: 65px; font-size: 20px; color: #555; background: #000;">?</div>
+                <div id="c2" style="border: 1px solid #333; width: 65px; height: 65px; line-height: 65px; font-size: 20px; color: #555; background: #000;">?</div>
             </div>
-            <div id="msg" style="font-size: 13px; height: 40px;"></div>
-            <button id="v-btn" class="btn" onclick="verify()">[ 掷圣杯 / VERIFY ]</button>
-            <button id="next" class="btn hidden" onclick="go3()">[ 生成机密档案 ]</button>
-            <button id="retry" class="btn hidden" onclick="location.reload()">[ 重新重试 ]</button>
+            <div id="msg" class="mono" style="font-size: 11px; height: 40px; line-height: 1.5; color: #888;"></div>
+            <button id="v-btn" class="btn" onclick="verify()">[ ENERGY VERIFICATION ]</button>
+            <button id="next" class="btn hidden" onclick="go3()">[ GENERATE ARCHIVE ]</button>
+            <button id="retry" class="btn hidden" onclick="location.reload()">[ SYSTEM RESET ]</button>
         </div>
     </div>
 
     <div id="s3" class="hidden" style="width: 90%; max-width: 400px;">
         <div class="result-card">
-            <div class="mono" style="font-weight: bold; font-size: 10px; margin-bottom: 20px; border-bottom: 2px solid #000; pb: 5px;">>> O.R.A SYSTEM ARCHIVE LOCK</div>
-            <p>数字签位：<b id="f-sign"></b></p>
-            <p>咨询场景：<b id="f-scn"></b></p>
-            <p>真实年纪：<b id="f-age"></b></p>
-            <div style="text-align: center; color: #8b0000; font-size: 12px; margin-top: 35px; border-top: 1px dashed #ccc; pt: 15px;">
-                <b>请立即截图本页面并回传</b>
+            <div class="mono" style="font-weight: 900; font-size: 11px; margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 10px;">
+                CONFIDENTIAL: O.R.A ARCHIVE
+            </div>
+            
+            <div class="result-item">
+                <span class="result-label">SIGN ID</span>
+                <span id="f-sign" class="result-value">--</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">SCENARIO</span>
+                <span id="f-scn" class="result-value">--</span>
+            </div>
+            <div class="result-item">
+                <span class="result-label">BASELINE</span>
+                <span id="f-age" class="result-value">--</span>
+            </div>
+
+            <div style="text-align: center; color: #8b0000; margin-top: 40px; padding-top: 20px; border-top: 1px dashed #ccc;">
+                <b style="font-size: 13px;">请立即截图并回传主理人</b><br>
+                <span class="mono" style="font-size: 9px; opacity: 0.6;">72H STRATEGIC WINDOW ACTIVATED</span>
             </div>
         </div>
     </div>
@@ -74,24 +231,50 @@
     <script>
         let d = {a:'', s:'', n:0};
         function go2() {
-            d.a = document.getElementById('age').value; d.s = document.getElementById('scn').value;
-            if(!d.a || !d.s) return alert("参数未校准");
-            document.getElementById('s1').classList.add('hidden'); document.getElementById('s2').classList.remove('hidden');
+            d.a = document.getElementById('age').value; 
+            d.s = document.getElementById('scn').value;
+            if(!d.a || !d.s) return;
+            document.getElementById('s1').classList.add('hidden'); 
+            document.getElementById('s2').classList.remove('hidden');
         }
         function runDraw() {
             let n = document.getElementById('num'), c = 0;
-            let i = setInterval(() => { n.innerText = Math.floor(Math.random()*51)+1; c++; if(c>15){ clearInterval(i); d.n=n.innerText; document.getElementById('v-box').classList.remove('hidden'); document.getElementById('draw').classList.add('hidden'); } }, 50);
+            let i = setInterval(() => { 
+                n.innerText = Math.floor(Math.random()*51)+1; 
+                c++; 
+                if(c>20){ 
+                    clearInterval(i); 
+                    d.n=n.innerText; 
+                    document.getElementById('v-box').classList.remove('hidden'); 
+                    document.getElementById('draw').classList.add('hidden'); 
+                } 
+            }, 50);
         }
         function verify() {
             let r1 = Math.random()>0.5?'阳':'阴', r2 = Math.random()>0.5?'阳':'阴';
-            document.getElementById('c1').innerText = r1; document.getElementById('c2').innerText = r2;
+            const c1 = document.getElementById('c1'), c2 = document.getElementById('c2');
+            c1.innerText = r1; c1.style.borderColor = "#8b0000"; c1.style.color = "#fff";
+            c2.innerText = r2; c2.style.borderColor = "#8b0000"; c2.style.color = "#fff";
+            
             let m = document.getElementById('msg'), v = document.getElementById('v-btn');
-            if(r1!==r2) { m.innerHTML="<b style='color:red'>【圣杯】</b>：通道激活"; v.classList.add('hidden'); document.getElementById('next').classList.remove('hidden'); }
-            else { m.innerText = "【"+(r1==='阳'?'笑':'阴')+"杯】：能量冲突"; v.classList.add('hidden'); document.getElementById('retry').classList.remove('hidden'); }
+            if(r1!==r2) { 
+                m.innerHTML="<span style='color:#fff'>【圣杯】能量校准完成</span><br>战略通道已建立"; 
+                v.classList.add('hidden'); 
+                document.getElementById('next').classList.remove('hidden'); 
+            }
+            else { 
+                let type = r1==='阳'?'笑':'阴';
+                m.innerHTML = "【"+type+"杯】能量场冲突<br>请重新初始化系统"; 
+                v.classList.add('hidden'); 
+                document.getElementById('retry').classList.remove('hidden'); 
+            }
         }
         function go3() {
-            document.getElementById('s2').classList.add('hidden'); document.getElementById('s3').classList.remove('hidden');
-            document.getElementById('f-sign').innerText = "第 "+d.n+" 签"; document.getElementById('f-scn').innerText = d.s; document.getElementById('f-age').innerText = d.a;
+            document.getElementById('s2').classList.add('hidden'); 
+            document.getElementById('s3').classList.remove('hidden');
+            document.getElementById('f-sign').innerText = "NO." + d.n; 
+            document.getElementById('f-scn').innerText = d.s; 
+            document.getElementById('f-age').innerText = d.a;
         }
     </script>
 </body>

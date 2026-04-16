@@ -19,9 +19,9 @@
             background-image: 
                 linear-gradient(rgba(18, 18, 18, 0.5) 1px, transparent 1px),
                 linear-gradient(90deg, rgba(18, 18, 18, 0.5) 1px, transparent 1px);
-            background-size: 30px 30px; /* 微动格栅底纹 */
+            background-size: 30px 30px;
             color: var(--text);
-            font-family: "Inter", "Microsoft YaHei", sans-serif;
+            font-family: sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -32,7 +32,6 @@
 
         .mono { font-family: "Courier New", monospace; text-transform: uppercase; }
 
-        /* 主容器：增加悬浮感 */
         .container {
             border: 1px solid var(--border);
             width: 90%;
@@ -42,9 +41,18 @@
             position: relative;
             box-shadow: 0 20px 50px rgba(0,0,0,0.8);
             backdrop-filter: blur(10px);
+            text-align: center;
         }
 
-        /* 装饰角标 */
+        /* 顶部 Logo 样式：自动灰度化适配暗黑风格 */
+        .brand-logo {
+            width: 140px;
+            height: auto;
+            margin-bottom: 30px;
+            filter: grayscale(1) brightness(1.2);
+            opacity: 0.9;
+        }
+
         .container::before {
             content: "SECURE NODE ID: ORA-2026";
             position: absolute;
@@ -54,13 +62,12 @@
             font-size: 9px;
             padding: 0 8px;
             letter-spacing: 2px;
-            font-family: monospace;
             border: 1px solid var(--border);
         }
 
-        /* 极简标签 */
         label {
             display: block;
+            text-align: left;
             font-size: 9px;
             color: var(--accent);
             letter-spacing: 2px;
@@ -68,7 +75,6 @@
             font-weight: 900;
         }
 
-        /* 下拉框：去掉系统默认样式 */
         select {
             width: 100%;
             padding: 15px;
@@ -79,14 +85,8 @@
             font-size: 13px;
             box-sizing: border-box;
             outline: none;
-            cursor: pointer;
-            transition: border 0.3s;
         }
 
-        select:hover { border-color: #555; }
-        select:focus { border-color: var(--accent); }
-
-        /* 按钮：增加内发光与呼吸感 */
         .btn {
             width: 100%;
             padding: 16px;
@@ -98,8 +98,6 @@
             letter-spacing: 3px;
             cursor: pointer;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
         }
 
         .btn:hover {
@@ -108,21 +106,13 @@
             box-shadow: 0 0 20px var(--glow);
         }
 
-        /* 结果存档卡片：高对比度设计 */
         .result-card {
             background: #fff;
             color: #1a1a1a;
             padding: 40px 30px;
             border: 3px solid #1a1a1a;
             position: relative;
-            box-shadow: 0 0 30px rgba(255,255,255,0.1);
-        }
-
-        .result-card::after {
-            content: "DECRYPTED DOCUMENT";
-            position: absolute;
-            bottom: 10px; right: 10px;
-            font-size: 8px; font-family: monospace; opacity: 0.3;
+            text-align: left;
         }
 
         .result-item {
@@ -133,12 +123,11 @@
             align-items: center;
         }
 
-        .result-label { font-size: 10px; font-weight: 900; color: #666; font-family: monospace; }
+        .result-label { font-size: 10px; font-weight: 900; color: #666; }
         .result-value { font-size: 16px; font-weight: 900; }
 
         .hidden { display: none; }
 
-        /* 扫描线动效 */
         .scanline {
             position: fixed;
             top: 0; left: 0;
@@ -149,9 +138,6 @@
             animation: scan 6s linear infinite;
         }
         @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
-
-        /* 摇签跑码动画 */
-        .rolling { color: var(--accent); text-shadow: 0 0 10px var(--accent); }
     </style>
 </head>
 <body>
@@ -159,8 +145,10 @@
     <div class="scanline"></div>
 
     <div id="s1" class="container">
-        <div class="mono" style="font-size: 9px; opacity: 0.4; text-align: center; margin-bottom: 35px; letter-spacing: 4px;">
-            >> O.R.A SYSTEM GATEWAY V2.9 <<
+        <img src="logo.png" alt="O.R.A" class="brand-logo">
+        
+        <div class="mono" style="font-size: 9px; opacity: 0.4; margin-bottom: 35px; letter-spacing: 4px;">
+            >> SYSTEM GATEWAY V2.9 <<
         </div>
         
         <label>AGE BASELINE // 真实年纪</label>
@@ -182,20 +170,20 @@
         <button class="btn" onclick="go2()">[ CONNECT TO TERMINAL ]</button>
     </div>
 
-    <div id="s2" class="container hidden" style="text-align: center;">
+    <div id="s2" class="container hidden">
         <div class="mono" style="font-size: 10px; color: var(--accent); margin-bottom: 40px; letter-spacing: 2px;">
             SYSTEM STATUS: DATA EXTRACTING...
         </div>
-        <div id="num" class="mono rolling" style="font-size: 56px; font-weight: bold; margin: 40px 0;">--</div>
+        <div id="num" class="mono" style="font-size: 56px; font-weight: bold; margin: 40px 0; color: var(--accent);">--</div>
         
         <button id="draw" class="btn" onclick="runDraw()">[ EXECUTE EXTRACTION ]</button>
         
         <div id="v-box" class="hidden">
             <div style="display: flex; justify-content: space-around; margin: 40px 0;">
-                <div id="c1" style="border: 1px solid #333; width: 65px; height: 65px; line-height: 65px; font-size: 20px; color: #555; background: #000;">?</div>
-                <div id="c2" style="border: 1px solid #333; width: 65px; height: 65px; line-height: 65px; font-size: 20px; color: #555; background: #000;">?</div>
+                <div id="c1" style="border: 1px solid #333; width: 65px; height: 65px; line-height: 65px; color: #555;">?</div>
+                <div id="c2" style="border: 1px solid #333; width: 65px; height: 65px; line-height: 65px; color: #555;">?</div>
             </div>
-            <div id="msg" class="mono" style="font-size: 11px; height: 40px; line-height: 1.5; color: #888;"></div>
+            <div id="msg" class="mono" style="font-size: 11px; height: 40px; color: #888;"></div>
             <button id="v-btn" class="btn" onclick="verify()">[ ENERGY VERIFICATION ]</button>
             <button id="next" class="btn hidden" onclick="go3()">[ GENERATE ARCHIVE ]</button>
             <button id="retry" class="btn hidden" onclick="location.reload()">[ SYSTEM RESET ]</button>
@@ -207,23 +195,11 @@
             <div class="mono" style="font-weight: 900; font-size: 11px; margin-bottom: 30px; border-bottom: 2px solid #000; padding-bottom: 10px;">
                 CONFIDENTIAL: O.R.A ARCHIVE
             </div>
-            
-            <div class="result-item">
-                <span class="result-label">SIGN ID</span>
-                <span id="f-sign" class="result-value">--</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">SCENARIO</span>
-                <span id="f-scn" class="result-value">--</span>
-            </div>
-            <div class="result-item">
-                <span class="result-label">BASELINE</span>
-                <span id="f-age" class="result-value">--</span>
-            </div>
-
+            <div class="result-item"><span class="result-label">SIGN ID</span><span id="f-sign" class="result-value">--</span></div>
+            <div class="result-item"><span class="result-label">SCENARIO</span><span id="f-scn" class="result-value">--</span></div>
+            <div class="result-item"><span class="result-label">BASELINE</span><span id="f-age" class="result-value">--</span></div>
             <div style="text-align: center; color: #8b0000; margin-top: 40px; padding-top: 20px; border-top: 1px dashed #ccc;">
-                <b style="font-size: 13px;">请立即截图并回传主理人</b><br>
-                <span class="mono" style="font-size: 9px; opacity: 0.6;">72H STRATEGIC WINDOW ACTIVATED</span>
+                <b style="font-size: 13px;">请立即截图并回传主理人</b>
             </div>
         </div>
     </div>
@@ -231,50 +207,31 @@
     <script>
         let d = {a:'', s:'', n:0};
         function go2() {
-            d.a = document.getElementById('age').value; 
-            d.s = document.getElementById('scn').value;
+            d.a = document.getElementById('age').value; d.s = document.getElementById('scn').value;
             if(!d.a || !d.s) return;
-            document.getElementById('s1').classList.add('hidden'); 
-            document.getElementById('s2').classList.remove('hidden');
+            document.getElementById('s1').classList.add('hidden'); document.getElementById('s2').classList.remove('hidden');
         }
         function runDraw() {
             let n = document.getElementById('num'), c = 0;
-            let i = setInterval(() => { 
-                n.innerText = Math.floor(Math.random()*51)+1; 
-                c++; 
-                if(c>20){ 
-                    clearInterval(i); 
-                    d.n=n.innerText; 
-                    document.getElementById('v-box').classList.remove('hidden'); 
-                    document.getElementById('draw').classList.add('hidden'); 
-                } 
-            }, 50);
+            let i = setInterval(() => { n.innerText = Math.floor(Math.random()*51)+1; c++; if(c>20){ clearInterval(i); d.n=n.innerText; document.getElementById('v-box').classList.remove('hidden'); document.getElementById('draw').classList.add('hidden'); } }, 50);
         }
         function verify() {
             let r1 = Math.random()>0.5?'阳':'阴', r2 = Math.random()>0.5?'阳':'阴';
             const c1 = document.getElementById('c1'), c2 = document.getElementById('c2');
-            c1.innerText = r1; c1.style.borderColor = "#8b0000"; c1.style.color = "#fff";
-            c2.innerText = r2; c2.style.borderColor = "#8b0000"; c2.style.color = "#fff";
-            
+            c1.innerText = r1; c1.style.color = "#fff"; c1.style.borderColor = "#8b0000";
+            c2.innerText = r2; c2.style.color = "#fff"; c2.style.borderColor = "#8b0000";
             let m = document.getElementById('msg'), v = document.getElementById('v-btn');
             if(r1!==r2) { 
-                m.innerHTML="<span style='color:#fff'>【圣杯】能量校准完成</span><br>战略通道已建立"; 
-                v.classList.add('hidden'); 
-                document.getElementById('next').classList.remove('hidden'); 
-            }
-            else { 
-                let type = r1==='阳'?'笑':'阴';
-                m.innerHTML = "【"+type+"杯】能量场冲突<br>请重新初始化系统"; 
-                v.classList.add('hidden'); 
-                document.getElementById('retry').classList.remove('hidden'); 
+                m.innerHTML="<span style='color:#fff'>【圣杯】能量校准完成</span>"; 
+                v.classList.add('hidden'); document.getElementById('next').classList.remove('hidden'); 
+            } else { 
+                m.innerHTML = "能量冲突，系统自毁重置中..."; 
+                v.classList.add('hidden'); document.getElementById('retry').classList.remove('hidden'); 
             }
         }
         function go3() {
-            document.getElementById('s2').classList.add('hidden'); 
-            document.getElementById('s3').classList.remove('hidden');
-            document.getElementById('f-sign').innerText = "NO." + d.n; 
-            document.getElementById('f-scn').innerText = d.s; 
-            document.getElementById('f-age').innerText = d.a;
+            document.getElementById('s2').classList.add('hidden'); document.getElementById('s3').classList.remove('hidden');
+            document.getElementById('f-sign').innerText = "NO." + d.n; document.getElementById('f-scn').innerText = d.s; document.getElementById('f-age').innerText = d.a;
         }
     </script>
 </body>

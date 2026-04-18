@@ -199,11 +199,12 @@
             <div class="result-item"><span class="result-label">数字签位</span><span id="f-sign" class="result-value">--</span></div>
             <div class="result-item"><span class="result-label">咨询场景</span><span id="f-scn" class="result-value">--</span></div>
             <div class="result-item"><span class="result-label">年龄基准</span><span id="f-age" class="result-value">--</span></div>
-            <div style="text-align: center; color: #8b0000; margin-top: 40px; padding-top: 20px; border-top: 1px dashed #ccc;">
-                <b style="font-size: 14px;">请立即截图并回传主理人</b><br>
-                <span style="font-size: 10px; opacity: 0.6; letter-spacing: 1px;">72小时战略窗口已激活</span>
+           <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px dashed #333;">
+                <a href="#" id="unlock-btn" class="btn" style="display: block; text-decoration: none; color: #fff; background: var(--accent); border: 1px solid var(--accent); box-shadow: 0 0 20px var(--glow); font-size: 14px;">[ UNLOCK FULL DOSSIER ]</a>
+                <div class="mono" style="font-size: 9px; opacity: 0.5; margin-top: 15px; letter-spacing: 1px;">
+                    // 数据将自动同步至终端 //
+                </div>
             </div>
-        </div>
     </div>
 
     <script>
@@ -272,6 +273,11 @@
             document.getElementById('f-sign').innerText = "第 " + d.n + " 签"; 
             document.getElementById('f-scn').innerText = d.s; 
             document.getElementById('f-age').innerText = d.a;
+
+            // O.R.A 核心数据穿透逻辑
+            const shopifyUrl = "https://ora-archive.myshopify.com/products/strategic-alignment-protocol";
+            // 将摇出的签号 (d.n) 拼接到 URL 尾部
+            document.getElementById('unlock-btn').href = `${shopifyUrl}?oracle_id=${d.n}`;
         }
     </script>
 </body>

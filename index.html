@@ -80,12 +80,12 @@ select{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--
 <div id="s2" class="hidden">
 <h2>Draw Your Omen</h2>
 <button class="btn" onclick="draw()" id="drawBtn">TRANSMIT SIGNAL</button>
-<div class="draw-area hidden" id="drawArea">
+<div class="draw-area hidden" id="drawArea" style="text-align:center">
 <div class="draw-num" id="signNum">--</div>
 <div class="draw-name" id="signName"></div>
-<div class="calib-area" id="calib">
-<p style="font-size:9px;color:var(--mute);margin:6px 0;font-family:Inter,sans-serif">Energy Calibration</p>
-<div class="coins"><div class="coin" id="c1">?</div><div class="coin" id="c2">?</div></div>
+<p style="font-size:10px;color:var(--mute);margin:16px 0;font-family:Inter,sans-serif">Your oracle has been received</p>
+<button class="btn hidden" onclick="go3()" id="viewBtn">VIEW FREE REPORT</button>
+</div>
 <button class="fbtn" onclick="flip()" id="flipBtn">TOSS COINS</button>
 <div id="msg"></div>
 <button class="fbtn hidden" onclick="resetDraw()" id="retryBtn">RETRY</button>

@@ -3,105 +3,129 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>O.R.A 战略决策终端 // 2026</title>
+<title>O.R.A 战略决策终端</title>
 <script src="ora_data.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#0a0a0a;--text:#f9f8f4;--accent:#8b0000;--panel:rgba(20,20,20,0.95);--border:#2a2a2a}
-body{background:var(--bg);color:var(--text);font-family:"PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;margin:0}
-.container{border:1px solid var(--border);width:90%;max-width:420px;padding:36px 32px;background:var(--panel);position:relative}
-.container::before{content:"安全节点: ORA-2026";position:absolute;top:-12px;left:20px;background:var(--bg);color:var(--accent);font-size:9px;padding:0 8px;letter-spacing:2px;border:1px solid var(--border)}
-h2{font-family:"Courier New",monospace;font-size:11px;color:var(--accent);letter-spacing:3px;margin-bottom:16px;text-align:center}
-label{display:block;font-size:10px;color:var(--accent);letter-spacing:2px;margin:12px 0 6px;font-weight:900}
-select{width:100%;padding:12px;background:#000;border:1px solid var(--border);color:var(--text);font-size:13px;outline:none;border-radius:0;margin-bottom:4px}
-.btn{width:100%;padding:14px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-size:12px;font-weight:bold;letter-spacing:3px;cursor:pointer;transition:all 0.3s;border-radius:0;margin-top:8px}
-.btn:hover{background:var(--accent);color:#fff}
+:root{--bg:#f7f5f0;--card:#ffffff;--text:#2c2c2c;--gold:#c4955a;--red:#8B0000;--mute:#999;--border:rgba(0,0,0,0.06)}
+body{background:var(--bg);color:var(--text);font-family:"Noto Serif SC","Source Han Serif SC",serif;min-height:100vh;display:flex;align-items:center;justify-content:center;margin:0;padding:16px}
+.container{background:var(--card);width:100%;max-width:440px;padding:32px 28px;border-radius:6px;box-shadow:0 2px 12px rgba(0,0,0,0.03);position:relative}
+h2{font-family:"Playfair Display","Georgia",serif;font-size:13px;color:var(--gold);letter-spacing:3px;margin-bottom:16px;text-align:center;font-weight:400}
+label{display:block;font-size:9px;color:var(--mute);letter-spacing:2px;margin:12px 0 4px;text-transform:uppercase;font-family:"Inter",sans-serif}
+select{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--border);color:var(--text);font-size:13px;outline:none;border-radius:4px;margin-bottom:4px;font-family:"Noto Serif SC",serif}
+.btn{width:100%;padding:12px;background:#fff;border:1px solid var(--gold);color:var(--gold);font-size:11px;font-family:"Inter",sans-serif;letter-spacing:2px;cursor:pointer;transition:all 0.2s;border-radius:4px;margin-top:8px;text-transform:uppercase}
+.btn:hover{background:var(--gold);color:#fff}
 .hidden{display:none!important}
-.report{padding:16px 0;text-align:left}
-.report .sn{font-family:"Courier New",monospace;font-size:18px;color:var(--accent);letter-spacing:2px}
-.report .nm{font-size:22px;margin:2px 0}
-.report .md{display:inline-block;border:1px solid rgba(139,0,0,0.25);padding:2px 10px;font-size:10px;color:var(--accent);margin-bottom:8px}
-.report .hr{border:0;height:1px;background:var(--border);margin:10px 0}
-.report .sh{font-size:9px;color:#666;letter-spacing:1px;margin-bottom:4px;text-transform:uppercase}
-.report .tx{font-size:12px;color:var(--text);margin-bottom:5px;line-height:1.5}
-.report .tx strong{color:var(--accent)}
+
+/* Draw area */
+.draw-area{text-align:center;padding:16px 0}
+.draw-num{font-family:"Playfair Display",serif;font-size:36px;color:var(--red);letter-spacing:2px;margin:10px 0 2px}
+.draw-name{font-size:14px;color:var(--mute);margin-bottom:12px}
+
+/* Calibration */
+.calib-area{text-align:center;margin:8px 0}
+.coins{display:flex;gap:12px;justify-content:center;margin:8px 0}
+.coin{width:42px;height:42px;border:1.5px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--mute);font-family:"Inter",sans-serif;background:var(--bg)}
+.fbtn{width:100%;padding:8px;background:var(--bg);border:1px solid var(--border);color:var(--mute);font-size:10px;font-family:"Inter",sans-serif;letter-spacing:1px;cursor:pointer;border-radius:4px;margin:3px 0}
+.fbtn:hover{border-color:var(--gold);color:var(--gold)}
+#msg{font-size:10px;color:var(--gold);text-align:center;margin:6px 0;font-family:"Inter",sans-serif}
+
+/* Report */
+.report{padding:16px 0}
+.report .badge{display:inline-block;background:rgba(196,149,90,0.08);border:1px solid rgba(196,149,90,0.12);padding:2px 10px;border-radius:3px;font-family:"Inter",sans-serif;font-size:8px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.report h1{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;margin:0;letter-spacing:1px}
+.report .sub{font-size:13px;color:var(--gold);margin-bottom:8px}
+.report .gl{width:20px;height:1.5px;background:var(--gold);margin:8px 0 12px}
+.report .sec{margin-bottom:14px}
+.report .sh{font-family:"Inter",sans-serif;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--mute);margin-bottom:4px}
+.report p{font-size:10pt;line-height:1.6;color:#555;margin:2px 0}
+.report strong{color:var(--red);font-weight:500}
 .report .bar{display:flex;align-items:center;margin:3px 0}
-.report .bar .bl{width:48px;font-size:9px;color:#666}
-.report .bar .bt{flex:1;height:4px;background:#1a1a1a;margin:0 6px;border-radius:2px}
+.report .bar .bl{width:44px;font-size:8px;color:var(--mute);font-family:"Inter",sans-serif;text-transform:uppercase}
+.report .bar .bt{flex:1;height:4px;background:#f0ece4;border-radius:2px;margin:0 6px}
 .report .bar .bf{height:4px;border-radius:2px}
-.report .bar .br{width:20px;text-align:right;font-size:10px}
-.report .cmd{border-left:2px solid var(--accent);padding:6px 10px;font-size:11px;color:var(--accent);line-height:1.4;margin:4px 0}
-.report .eg{border:1px solid var(--border);padding:6px 10px;font-size:11px;color:#999;line-height:1.4;margin:4px 0}
-.loading{text-align:center;padding:16px;font-family:"Courier New",monospace;font-size:10px;color:var(--accent);animation:pulse 1.5s infinite}
-@keyframes pulse{0%{opacity:0.3}50%{opacity:1}100%{opacity:0.3}}
-.coin{display:flex;gap:14px;justify-content:center;margin:10px 0}
-.coin .c{width:46px;height:46px;border:2px solid #333;display:flex;align-items:center;justify-content:center;font-size:14px;color:#555;font-family:"Courier New",monospace}
-.fbtn{width:100%;padding:10px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-size:11px;letter-spacing:2px;cursor:pointer;margin:3px 0}
-.fbtn:hover{background:var(--accent);color:#fff}
-#msg{font-size:10px;color:var(--accent);text-align:center;margin:6px 0}
-.bn{text-align:center;font-size:32px;margin:8px 0;font-family:"Courier New",monospace;letter-spacing:4px}
+.report .bar .br{width:20px;text-align:right;font-size:9px;font-family:"Inter",sans-serif;font-weight:600}
+.report .cmd{border-left:2px solid var(--gold);padding:6px 12px;font-size:9.5pt;line-height:1.5;color:var(--gold);font-weight:500;margin:4px 0}
+.report .cv{border-top:1px solid var(--border);padding-top:10px;margin-top:8px;font-size:10pt;line-height:1.6;color:#666;font-style:italic}
 </style>
 </head>
 <body>
 <div class="container" id="app">
 
+<!-- Step 1: Settings -->
 <div id="s1">
-<h2>>> 终端系统网关 V2.9 <<</h2>
-<label>真实年纪 // AGE</label>
-<select id="age"><option value="">选择生命周期...</option>
-<option value="25岁以下">25岁以下</option><option value="25-35岁">25-35岁</option><option value="35-45岁">35-45岁</option><option value="45-55岁">45-55岁</option><option value="55岁以上">55岁以上</option></select>
-<label>战略场景 // SCENARIO</label>
-<select id="topic"><option value="">选择核验场景...</option>
-<option value="求财">求财 · Wealth</option><option value="谋事">谋事 · Career</option><option value="婚姻">婚姻 · Relationship</option><option value="生意综合">生意 · Business</option><option value="功名">功名 · Achievement</option><option value="合伙">合伙 · Partnership</option><option value="家宅">家宅 · Home</option><option value="占病">占病 · Health</option></select>
-<button class="btn" onclick="go2()">[ 建立安全链接 ]</button>
+<h2>O.R.A Strategic Terminal</h2>
+<label>Life Stage</label>
+<select id="age"><option value="">— Select —</option>
+<option value="25岁以下">25 and under</option><option value="25-35岁">25–35</option>
+<option value="35-45岁">35–45</option><option value="45-55岁">45–55</option><option value="55岁以上">55+</option></select>
+<label>Focus Area</label>
+<select id="topic"><option value="">— Select —</option>
+<option value="求财">Wealth / 求财</option><option value="谋事">Career / 谋事</option>
+<option value="婚姻">Relationship / 婚姻</option><option value="生意综合">Business / 生意</option>
+<option value="功名">Achievement / 功名</option><option value="合伙">Partnership / 合伙</option>
+<option value="家宅">Home / 家宅</option><option value="占病">Health / 占病</option>
+</select>
+<button class="btn" onclick="go2()">INITIATE SEQUENCE</button>
 </div>
 
+<!-- Step 2: Draw -->
 <div id="s2" class="hidden">
-<h2>>> 能量校准 <<</h2>
-<button class="btn" onclick="draw()" id="drawBtn">[ 执行数据提取 ]</button>
-<div class="loading hidden" id="loading">数据提取中...</div>
-<div class="bn" id="signNum">--</div>
-<div style="text-align:center;font-size:11px;color:#666;letter-spacing:1px" id="signName"></div>
-<div id="calib" class="hidden">
-<div class="coin"><div class="c" id="c1">?</div><div class="c" id="c2">?</div></div>
-<button class="fbtn" onclick="flip()" id="flipBtn">[ 投掷圣杯 ]</button>
+<h2>Draw Your Omen</h2>
+<button class="btn" onclick="draw()" id="drawBtn">TRANSMIT SIGNAL</button>
+<div class="draw-area hidden" id="drawArea">
+<div class="draw-num" id="signNum">--</div>
+<div class="draw-name" id="signName"></div>
+<div class="calib-area" id="calib">
+<p style="font-size:9px;color:var(--mute);margin:6px 0;font-family:Inter,sans-serif">Energy Calibration</p>
+<div class="coins"><div class="coin" id="c1">?</div><div class="coin" id="c2">?</div></div>
+<button class="fbtn" onclick="flip()" id="flipBtn">TOSS COINS</button>
 <div id="msg"></div>
-<button class="fbtn hidden" onclick="resetDraw()" id="retryBtn">[ 重新提取 ]</button>
-<button class="btn hidden" onclick="go3()" id="nextBtn">[ 生成机密档案 ]</button>
-</div>
+<button class="fbtn hidden" onclick="resetDraw()" id="retryBtn">RETRY</button>
+<button class="btn hidden" onclick="go3()">ACCESS DOSSIER</button>
+</div></div>
+<div class="loading hidden" id="loading" style="text-align:center;padding:12px;font-family:Inter,sans-serif;font-size:9px;color:var(--gold);letter-spacing:2px">TRANSMITTING...</div>
 </div>
 
+<!-- Step 3: Free Report -->
 <div id="s3" class="hidden">
-<h2>>> 机密档案 <<</h2>
+<h2>Strategic Preview</h2>
 <div class="report" id="report"></div>
-<button class="btn" onclick="unlock()">[ UNLOCK FULL DOSSIER — ¥19.9 ]</button>
+<button class="btn" onclick="unlock()">UNLOCK FULL DOSSIER — ¥19.9</button>
 </div>
 
 </div>
 
 <script>
 const BC=["#8B0000","#c4955a","#2a6a4a","#4a6a8a","#8a6a4a"],RK=["逆商","红利","决断力","环境","内耗"];
-const EM={"求财":"Green Tourmaline · Dark green & gold","谋事":"Black Tourmaline · Black & white","婚姻":"Pink Tourmaline · Rose & cream","占病":"Green Tourmaline · Soothing green","家宅":"Watermelon Tourmaline · Warm neutrals","功名":"Blue Tourmaline · Navy & silver","生意综合":"Black + Green Tourmaline","合伙":"Green Tourmaline + Gold","学艺":"Yellow Tourmaline · Bright accents","开铺":"Black Tourmaline · Gold accents","置货":"Green Tourmaline · Earth tones","出外":"Black Tourmaline · Travel protection","失物":"Tourmaline focus stone","六甲":"Watermelon Tourmaline","官讼":"Blue Tourmaline","行人":"Black Tourmaline"};
+const EM={"求财":"Green Tourmaline · Dark green & gold","谋事":"Black Tourmaline · Black & white","婚姻":"Pink Tourmaline · Rose & cream","占病":"Green Tourmaline · Soothing green","家宅":"Watermelon Tourmaline · Warm neutrals","功名":"Blue Tourmaline · Navy & silver","生意综合":"Black + Green Tourmaline","合伙":"Green Tourmaline + Gold","学艺":"Yellow Tourmaline · Bright","开铺":"Black Tourmaline · Gold","置货":"Green Tourmaline · Earth tones","出外":"Black Tourmaline · Travel","失物":"Tourmaline focus stone","六甲":"Watermelon Tourmaline","官讼":"Blue Tourmaline","行人":"Black Tourmaline"};
+const CC={"爆发期":"Now is your time. The oracle confirms your momentum is real.","蛰伏期":"Strength is underground. Trust the process.","重组期":"The old must end before the new begins.","破局期":"Breakthrough is near. The last obstacles are before open ground.","盘整期":"Strategic patience yields tenfold returns.","危机期":"Conserve. Trust your foundation. This too passes.","避险期":"The wise know when to retreat."};
+const DC="The wisdom of Xuanwushan guides your next move.";
 function pr(s){const r={逆商:0,红利:0,决断力:0,环境:0,内耗:0};(s||'').match(/[一-鿿]+?\d+/g)?.forEach(m=>{const k=m.match(/[一-鿿]+/)?.[0],v=parseInt(m.match(/\d+/)?.[0]);if(k&&r[k]!==void 0)r[k]=v});return r}
 let st={age:'',topic:'',sn:'',sd:null};
-function go2(){st.age=document.getElementById('age').value;st.topic=document.getElementById('topic').value;if(!st.age||!st.topic)return alert("请先完成参数校准");document.getElementById('s1').classList.add('hidden');document.getElementById('s2').classList.remove('hidden')}
-function draw(){const btn=document.getElementById('drawBtn'),ld=document.getElementById('loading');btn.classList.add('hidden');ld.classList.remove('hidden');let c=0;const i=setInterval(()=>{const r=Math.floor(Math.random()*51)+1;k="第"+["一","二","三","四","五","六","七","八","九","十","十一","十二","十三","十四","十五","十六","十七","十八","十九","二十","二十一","二十二","二十三","二十四","二十五","二十六","二十七","二十八","二十九","三十","三十一","三十二","三十三","三十四","三十五","三十六","三十七","三十八","三十九","四十","四十一","四十二","四十三","四十四","四十五","四十六","四十七","四十八","四十九","五十","五十一"][r-1]+"签";document.getElementById('signNum').textContent=k;document.getElementById('signName').textContent=ORA_DATA[k]?.name||'';c++;if(c>25){clearInterval(i);ld.classList.add('hidden');st.sn=k;st.sd=ORA_DATA[k];document.getElementById('calib').classList.remove('hidden')}},60)}
-function flip(){const c1=Math.random()>0.5?'阳':'阴',c2=Math.random()>0.5?'阳':'阴';document.getElementById('c1').textContent=c1;document.getElementById('c1').style.color='#fff';document.getElementById('c1').style.borderColor='#8b0000';document.getElementById('c2').textContent=c2;document.getElementById('c2').style.color='#fff';document.getElementById('c2').style.borderColor='#8b0000';const msg=document.getElementById('msg');document.getElementById('flipBtn').classList.add('hidden');if(c1!==c2){msg.innerHTML="【圣杯】校准完成";document.getElementById('nextBtn').classList.remove('hidden')}else{const t=c1==='阳'?'笑':'阴';msg.innerHTML="【"+t+"杯】能量场冲突";document.getElementById('retryBtn').classList.remove('hidden')}}
-function resetDraw(){['c1','c2'].forEach(id=>{const el=document.getElementById(id);el.textContent='?';el.style.color='#555';el.style.borderColor='#333'});document.getElementById('msg').textContent='';document.getElementById('flipBtn').classList.remove('hidden');document.getElementById('retryBtn').classList.add('hidden');document.getElementById('nextBtn').classList.add('hidden')}
-function go3(){document.getElementById('s2').classList.add('hidden');document.getElementById('s3').classList.remove('hidden');const d=st.sd;if(!d)return;const radar=pr(d.radar),eg=EM[st.topic]||"Black Tourmaline · Gold accent";let bars='';RK.forEach((k,i)=>{const v=radar[k];bars+=`<div class="bar"><span class="bl">${k}</span><div class="bt"><div class="bf" style="width:${v}%;background:${BC[i]}"></div></div><span class="br" style="color:${BC[i]}">${v}</span></div>`});
+
+function go2(){st.age=document.getElementById('age').value;st.topic=document.getElementById('topic').value;if(!st.age||!st.topic)return alert("Please select both options");document.getElementById('s1').classList.add('hidden');document.getElementById('s2').classList.remove('hidden')}
+
+function draw(){const btn=document.getElementById('drawBtn'),ld=document.getElementById('loading'),da=document.getElementById('drawArea');btn.classList.add('hidden');ld.classList.remove('hidden');let c=0;const i=setInterval(()=>{const r=Math.floor(Math.random()*51)+1;k="第"+["一","二","三","四","五","六","七","八","九","十","十一","十二","十三","十四","十五","十六","十七","十八","十九","二十","二十一","二十二","二十三","二十四","二十五","二十六","二十七","二十八","二十九","三十","三十一","三十二","三十三","三十四","三十五","三十六","三十七","三十八","三十九","四十","四十一","四十二","四十三","四十四","四十五","四十六","四十七","四十八","四十九","五十","五十一"][r-1]+"签";document.getElementById('signNum').textContent=k;document.getElementById('signName').textContent=ORA_DATA[k]?.name||'';c++;if(c>25){clearInterval(i);ld.classList.add('hidden');da.classList.remove('hidden');st.sn=k;st.sd=ORA_DATA[k]}},60)}
+
+function flip(){const c1=Math.random()>0.5?'阳':'阴',c2=Math.random()>0.5?'阳':'阴';document.getElementById('c1').textContent=c1;document.getElementById('c1').style.color='#c4955a';document.getElementById('c1').style.borderColor='#c4955a';document.getElementById('c2').textContent=c2;document.getElementById('c2').style.color='#c4955a';document.getElementById('c2').style.borderColor='#c4955a';const msg=document.getElementById('msg');document.getElementById('flipBtn').classList.add('hidden');if(c1!==c2){msg.innerHTML="✦ Calibration Complete";document.getElementById('nextBtn').classList.remove('hidden')}else{const t=c1==='阳'?'Yang':'Yin';msg.innerHTML="✦ "+t+" Block — Clear and retry";document.getElementById('retryBtn').classList.remove('hidden')}}
+
+function resetDraw(){['c1','c2'].forEach(id=>{const el=document.getElementById(id);el.textContent='?';el.style.color='#999';el.style.borderColor='rgba(0,0,0,0.06)'});document.getElementById('msg').textContent='';document.getElementById('flipBtn').classList.remove('hidden');document.getElementById('retryBtn').classList.add('hidden');document.getElementById('nextBtn').classList.add('hidden')}
+
+function go3(){document.getElementById('s2').classList.add('hidden');document.getElementById('s3').classList.remove('hidden');const d=st.sd;if(!d)return;const radar=pr(d.radar),eg=EM[st.topic]||"Black Tourmaline · Gold accent";let con=DC;for(const[k,v]of Object.entries(CC)){if(d.model.includes(k)){con=v;break}}let bars='';RK.forEach((k,i)=>{const v=radar[k];bars+=`<div class="bar"><span class="bl">${k}</span><div class="bt"><div class="bf" style="width:${v}%;background:${BC[i]}"></div></div><span class="br" style="color:${BC[i]}">${v}</span></div>`});
 document.getElementById('report').innerHTML=`
-<div class="sn">${st.sn}</div><div class="nm">${d.name}</div><div class="md">${d.model}</div>
-<hr class="hr">
-<div class="sh">&#9670; Oracle Reading</div><div class="tx"><strong>${d.ji}</strong></div><div class="tx">${d.story}</div>
-<hr class="hr">
-<div class="sh">&#9670; Strategic Profile</div><div class="tx" style="color:var(--accent)">${d.model}</div><div class="tx"><strong>Advantage</strong>: ${d.adv}</div><div class="tx"><strong>Blind Spot</strong>: ${d.blind}</div>
-<hr class="hr">
-<div class="sh">&#9670; Five Dimensions</div>${bars}
-<hr class="hr">
-<div class="sh">&#9670; Core Directive</div><div class="cmd">${d.cmd}</div>
-<hr class="hr">
-<div class="sh">&#9670; Energy Guide</div><div class="eg">${eg}</div>
+<div class="badge">${st.topic}</div>
+<h1>${st.sn}</h1>
+<div class="sub">${d.name}</div>
+<div class="gl"></div>
+<div class="sec"><div class="sh">✦ Oracle Reading</div><p><strong>${d.ji}</strong></p><p>${d.story}</p></div>
+<div class="sec"><div class="sh">✦ Strategic Archetype</div><p style="color:var(--gold);font-weight:500">${d.model}</p><p><strong>Advantage</strong>: ${d.adv}</p><p><strong>Blind Spot</strong>: ${d.blind}</p></div>
+<div class="sec"><div class="sh">✦ Five Dimensions</div>${bars}</div>
+<div class="sec"><div class="sh">✦ Core Directive</div><div class="cmd">${d.cmd}</div></div>
+<div class="sec"><div class="sh">✦ Energy Configuration</div><p>${eg}</p></div>
+<div class="cv">${con}</div>
 `}
+
 function unlock(){const n=parseInt(st.sn.replace(/\D/g,''))||1;window.open('https://o-r-alab.myshopify.com/products/strategic-alignment-protocol?oracle_id='+n,'_blank')}
 </script>
 </body>

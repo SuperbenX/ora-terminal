@@ -120,19 +120,35 @@ function flip(){const c1=Math.random()>0.5?'阳':'阴',c2=Math.random()>0.5?'阳
 
 function resetDraw(){document.getElementById("drawBtn").classList.remove("hidden");document.getElementById("drawArea").classList.add("hidden");document.getElementById("retryBtn").classList.add("hidden");document.getElementById("nextBtn").classList.add("hidden");document.getElementById("flipBtn").classList.remove("hidden");document.getElementById("msg").textContent="";document.getElementById("c1").textContent="?";document.getElementById("c1").style.color="#999";document.getElementById("c1").style.borderColor="rgba(0,0,0,0.06)";document.getElementById("c2").textContent="?";document.getElementById("c2").style.color="#999";document.getElementById("c2").style.borderColor="rgba(0,0,0,0.06)";document.getElementById("signNum").textContent="--";document.getElementById("signName").textContent=""}
 
-function go3(){var s2=document.getElementById('s2'),s3=document.getElementById('s3'),rp=document.getElementById('report');s2.classList.add('hidden');s3.classList.remove('hidden');var d=st.sd;if(!d){rp.innerHTML='<p style="color:#c4955a">No data</p>';return}var r=pr(d.radar),eg=EM[st.topic]||"Black Tourmaline";var con=DC;for(var k in CC){if(d.model&&d.model.indexOf(k)>=0){con=CC[k];break}}var bars='';for(var i=0;i<5;i++){var v=r[["逆商","红利","决断力","环境","内耗"][i]];bars+='<div class=bar><span class=bl>'+["逆商","红利","决断力","环境","内耗"][i]+'</span><div class=bt><div class=bf style=width:'+v+'%;background:'+["#8B0000","#c4955a","#2a6a4a","#4a6a8a","#8a6a4a"][i]+'></div></div><span class=br style=color:'+["#8B0000","#c4955a","#2a6a4a","#4a6a8a","#8a6a4a"][i]+'>'+v+'</span></div>'}rp.innerHTML='<div class=badge>'+st.topic+'</div><h1>'+st.sn+'</h1><div class=sub>'+d.name+'</div><div class=gl></div><div class=sec><div class=sh>Oracle Reading</div><p><strong>'+d.ji+'</strong></p><p>'+d.story+'</p></div><div class=sec><div class=sh>Strategic Profile</div><p style=color:#c4955a;font-weight:500>'+d.model+'</p><p><strong>Advantage</strong>: '+d.adv+'</p><p><strong>Blind Spot</strong>: '+d.blind+'</p></div><div class=sec><div class=sh>Five Dimensions</div>'+bars+'</div><div class=sec><div class=sh>Core Directive</div><div class=cmd>'+d.cmd+'</div></div><div class=sec><div class=sh>Energy Guide</div><p>'+eg+'</p></div><div class=cv>'+con+'</div>'};
-document.getElementById('report').innerHTML=`
-<div class="badge">${st.topic}</div>
-<h1>${st.sn}</h1>
-<div class="sub">${d.name}</div>
-<div class="gl"></div>
-<div class="sec"><div class="sh">✦ Oracle Reading</div><p><strong>${d.ji}</strong></p><p>${d.story}</p></div>
-<div class="sec"><div class="sh">✦ Strategic Archetype</div><p style="color:var(--gold);font-weight:500">${d.model}</p><p><strong>Advantage</strong>: ${d.adv}</p><p><strong>Blind Spot</strong>: ${d.blind}</p></div>
-<div class="sec"><div class="sh">✦ Five Dimensions</div>${bars}</div>
-<div class="sec"><div class="sh">✦ Core Directive</div><div class="cmd">${d.cmd}</div></div>
-<div class="sec"><div class="sh">✦ Energy Configuration</div><p>${eg}</p></div>
-<div class="cv">${con}</div>
-`}
+
+function go3(){
+  document.getElementById("s2").classList.add("hidden");
+  document.getElementById("s3").classList.remove("hidden");
+  var d = st.sd;
+  if (!d) { document.getElementById("report").innerHTML = "No data"; return; }
+  var r = pr(d.radar);
+  var eg = EM[st.topic] || "Black Tourmaline";
+  var con = DC;
+  for (var k in CC) { if (d.model && d.model.indexOf(k) >= 0) { con = CC[k]; break; } }
+  var bars = "";
+  var labels = ["\u9006\u5546","\u7ea2\u5229","\u51b3\u65ad\u529b","\u73af\u5883","\u5185\u8017"];
+  var colors = ["#8B0000","#c4955a","#2a6a4a","#4a6a8a","#8a6a4a"];
+  for (var i = 0; i < 5; i++) {
+    var v = r[labels[i]] || 0;
+    bars += "<div class=bar><span class=bl>" + labels[i] + "</span><div class=bt><div class=bf style=width:" + v + "%;background:" + colors[i] + "></div></div><span class=br style=color:" + colors[i] + ">" + v + "</span></div>";
+  }
+  var html = 
+    "<div class=badge>" + st.topic + "</div>" +
+    "<h1>" + st.sn + "</h1>" +
+    "<div class=sub>" + d.name + "</div><div class=gl></div>" +
+    "<div class=sec><div class=sh>Oracle Reading</div><p><strong>" + d.ji + "</strong></p><p>" + d.story + "</p></div>" +
+    "<div class=sec><div class=sh>Strategic Profile</div><p style=color:#c4955a;font-weight:500>" + d.model + "</p><p><strong>Advantage</strong>: " + d.adv + "</p><p><strong>Blind Spot</strong>: " + d.blind + "</p></div>" +
+    "<div class=sec><div class=sh>Five Dimensions</div>" + bars + "</div>" +
+    "<div class=sec><div class=sh>Core Directive</div><div class=cmd>" + d.cmd + "</div></div>" +
+    "<div class=sec><div class=sh>Energy Guide</div><p>" + eg + "</p></div>" +
+    "<div class=cv>" + con + "</div>";
+  document.getElementById("report").innerHTML = html;
+}
 
 function unlock(){const n=parseInt(st.sn.replace(/\D/g,''))||1;window.open('https://o-r-alab.myshopify.com/products/strategic-alignment-protocol?oracle_id='+n,'_blank')}
 </script>

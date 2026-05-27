@@ -25,13 +25,24 @@ select{width:100%;padding:12px;background:#000;border:1px solid var(--border);co
 .report .sh{font-size:9px;color:#666;letter-spacing:1px;margin-bottom:4px;text-transform:uppercase}
 .report .tx{font-size:12px;color:var(--text);margin-bottom:5px;line-height:1.5}
 .report .tx strong{color:var(--accent)}
+.report .badge{display:inline-block;background:rgba(196,149,90,0.08);border:1px solid rgba(196,149,90,0.12);padding:2px 10px;border-radius:3px;font-family:Inter,sans-serif;font-size:8px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
+.report h1{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;margin:2px 0;letter-spacing:1px}
+.report .sub{font-size:14px;color:var(--gold);margin-bottom:6px}
+.report .gl{width:20px;height:1.5px;background:var(--gold);margin:8px 0 12px}
+.report .sec{margin-bottom:14px}
+.report .sh{font-family:Inter,sans-serif;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:4px}
+.report p{font-size:10pt;line-height:1.6;color:#555;margin:2px 0}
+.report strong{color:var(--gold);font-weight:500}
+.report .model{font-size:10pt;line-height:1.6;color:var(--gold);font-weight:500;margin:2px 0}
+.report .verse{margin:6px 0;padding:6px 10px;background:#f7f5f0;border-radius:3px;font-size:9.5pt;line-height:1.5;color:#666;font-style:italic}
+.report .cmd{border-left:2px solid var(--gold);padding:6px 10px;font-size:11px;color:var(--gold);line-height:1.4;margin:4px 0}
+.report .eg{border:1px solid var(--border);padding:6px 10px;font-size:11px;color:#999;line-height:1.4;margin:4px 0}
+.report .cv{border-top:1px solid var(--border);padding-top:10px;margin-top:8px;font-size:10pt;line-height:1.6;color:#666;font-style:italic}
 .report .bar{display:flex;align-items:center;margin:3px 0}
 .report .bar .bl{width:48px;font-size:9px;color:#666}
 .report .bar .bt{flex:1;height:4px;background:#1a1a1a;margin:0 6px;border-radius:2px}
 .report .bar .bf{height:4px;border-radius:2px}
 .report .bar .br{width:20px;text-align:right;font-size:10px}
-.report .cmd{border-left:2px solid var(--accent);padding:6px 10px;font-size:11px;color:var(--accent);line-height:1.4;margin:4px 0}
-.report .eg{border:1px solid var(--border);padding:6px 10px;font-size:11px;color:#999;line-height:1.4;margin:4px 0}
 .loading{text-align:center;padding:16px;font-family:"Courier New",monospace;font-size:10px;color:var(--accent);animation:pulse 1.5s infinite}
 @keyframes pulse{0%{opacity:0.3}50%{opacity:1}100%{opacity:0.3}}
 .coin{display:flex;gap:14px;justify-content:center;margin:10px 0}
@@ -52,7 +63,15 @@ select{width:100%;padding:12px;background:#000;border:1px solid var(--border);co
 <option value="25岁以下">25岁以下</option><option value="25-35岁">25-35岁</option><option value="35-45岁">35-45岁</option><option value="45-55岁">45-55岁</option><option value="55岁以上">55岁以上</option></select>
 <label>战略场景 // SCENARIO</label>
 <select id="topic"><option value="">选择核验场景...</option>
-<option value="求财">求财 · Wealth</option><option value="谋事">谋事 · Career</option><option value="婚姻">婚姻 · Relationship</option><option value="生意综合">生意 · Business</option><option value="功名">功名 · Achievement</option><option value="合伙">合伙 · Partnership</option><option value="家宅">家宅 · Home</option><option value="占病">占病 · Health</option></select>
+<option value="求财">求财 · Wealth</option><option value="谋事">谋事 · Career</option><option value="婚姻">婚姻 · Relationship</option><option value="生意综合">生意 · Business</option><option value="功名">功名 · Achievement</option><option value="合伙">合伙 · Partnership</option><option value="家宅">家宅 · Home</option><option value="占病">占病 · Health</option>
+<option value="学艺">学艺 · Learning</option>
+<option value="开铺">开铺 · Store</option>
+<option value="置货">置货 · Inventory</option>
+<option value="出外">出外 · Travel</option>
+<option value="失物">失物 · Lost</option>
+<option value="六甲">六甲 · Pregnancy</option>
+<option value="官讼">官讼 · Litigation</option>
+<option value="行人">行人 · Traveler</option></select>
 <button class="btn" onclick="go2()">[ 建立安全链接 ]</button>
 </div>
 
@@ -88,19 +107,18 @@ function go2(){st.age=document.getElementById('age').value;st.topic=document.get
 function draw(){const btn=document.getElementById('drawBtn'),ld=document.getElementById('loading');btn.classList.add('hidden');ld.classList.remove('hidden');let c=0;const i=setInterval(()=>{const r=Math.floor(Math.random()*51)+1;k="第"+["一","二","三","四","五","六","七","八","九","十","十一","十二","十三","十四","十五","十六","十七","十八","十九","二十","二十一","二十二","二十三","二十四","二十五","二十六","二十七","二十八","二十九","三十","三十一","三十二","三十三","三十四","三十五","三十六","三十七","三十八","三十九","四十","四十一","四十二","四十三","四十四","四十五","四十六","四十七","四十八","四十九","五十","五十一"][r-1]+"签";document.getElementById('signNum').textContent=k;document.getElementById('signName').textContent=ORA_DATA[k]?.name||'';c++;if(c>25){clearInterval(i);ld.classList.add('hidden');st.sn=k;st.sd=ORA_DATA[k];document.getElementById('calib').classList.remove('hidden')}},60)}
 function flip(){const c1=Math.random()>0.5?'阳':'阴',c2=Math.random()>0.5?'阳':'阴';document.getElementById('c1').textContent=c1;document.getElementById('c1').style.color='#fff';document.getElementById('c1').style.borderColor='#8b0000';document.getElementById('c2').textContent=c2;document.getElementById('c2').style.color='#fff';document.getElementById('c2').style.borderColor='#8b0000';const msg=document.getElementById('msg');document.getElementById('flipBtn').classList.add('hidden');if(c1!==c2){msg.innerHTML="【圣杯】校准完成";document.getElementById('nextBtn').classList.remove('hidden')}else{const t=c1==='阳'?'笑':'阴';msg.innerHTML="【"+t+"杯】能量场冲突";document.getElementById('retryBtn').classList.remove('hidden')}}
 function resetDraw(){['c1','c2'].forEach(id=>{const el=document.getElementById(id);el.textContent='?';el.style.color='#555';el.style.borderColor='#333'});document.getElementById('msg').textContent='';document.getElementById('flipBtn').classList.remove('hidden');document.getElementById('retryBtn').classList.add('hidden');document.getElementById('nextBtn').classList.add('hidden')}
-function go3(){document.getElementById('s2').classList.add('hidden');document.getElementById('s3').classList.remove('hidden');const d=st.sd;if(!d)return;const radar=pr(d.radar),eg=EM[st.topic]||"Black Tourmaline · Gold accent";let bars='';RK.forEach((k,i)=>{const v=radar[k];bars+=`<div class="bar"><span class="bl">${k}</span><div class="bt"><div class="bf" style="width:${v}%;background:${BC[i]}"></div></div><span class="br" style="color:${BC[i]}">${v}</span></div>`});
+function go3(){document.getElementById('s2').classList.add('hidden');document.getElementById('s3').classList.remove('hidden');const d=st.sd;if(!d)return;const radar=pr(d.radar),eg=EM[st.topic]||"Black Tourmaline";let bars='';RK.forEach((k,i)=>{const v=radar[k];bars+=`<div class="bar"><span class="bl">${k}</span><div class="bt"><div class="bf" style="width:${v}%;background:${BC[i]}"></div></div><span class="br" style="color:${BC[i]}">${v}</span></div>`});const cc={'爆发期':'Now is your time. Momentum is real.','蛰伏期':'Strength underground. Trust the process.','重组期':'The old must end before the new begins.','破局期':'Breakthrough is near. Last obstacles before open ground.','盘整期':'Strategic patience yields tenfold returns.','危机期':'Conserve. Trust your foundation. This too passes.','避险期':'The wise know when to retreat.'};let con='The wisdom of Xuanwushan guides your next move.';for(let k in cc){if(d.model&&d.model.indexOf(k)>=0){con=cc[k];break}}
 document.getElementById('report').innerHTML=`
-<div class="sn">${st.sn}</div><div class="nm">${d.name}</div><div class="md">${d.model}</div>
-<hr class="hr">
-<div class="sh">&#9670; Oracle Reading</div><div class="tx"><strong>${d.ji}</strong></div><div class="tx">${d.story}</div>
-<hr class="hr">
-<div class="sh">&#9670; Strategic Profile</div><div class="tx" style="color:var(--accent)">${d.model}</div><div class="tx"><strong>Advantage</strong>: ${d.adv}</div><div class="tx"><strong>Blind Spot</strong>: ${d.blind}</div>
-<hr class="hr">
-<div class="sh">&#9670; Five Dimensions</div>${bars}
-<hr class="hr">
-<div class="sh">&#9670; Core Directive</div><div class="cmd">${d.cmd}</div>
-<hr class="hr">
-<div class="sh">&#9670; Energy Guide</div><div class="eg">${eg}</div>
+<div class="badge">${st.topic}</div>
+<h1>${st.sn}</h1>
+<div class="sub">${d.name}</div>
+<div class="gl"></div>
+<div class="sec"><div class="sh">&#9670; 卷宗还原 · Codex</div><p><strong>${d.ji}</strong></p><p>${d.story}</p>${d.poem?`<div class="verse">签诗 · ${d.poem}</div>`:''}${d.fortune?`<p>${d.fortune}</p>`:''}${d.yearly?`<p><strong>岁君</strong>：${d.yearly}</p>`:''}</div>
+<div class="sec"><div class="sh">&#9670; 战略态 · Archetype</div><p class="model">${d.model}</p><p><strong>核心优势</strong>：${d.adv}</p><p><strong>致命盲区</strong>：${d.blind}</p></div>
+<div class="sec"><div class="sh">&#9670; 五维势能 · Radar</div>${bars}</div>
+<div class="sec"><div class="sh">&#9670; 核心指令 · Directive</div><div class="cmd">${d.cmd}</div></div>
+<div class="sec"><div class="sh">&#9670; 能量指南 · Energy</div><div class="eg">${eg}</div></div>
+<div class="cv">${con}</div>
 `}
 function unlock(){const n=parseInt(st.sn.replace(/\D/g,''))||1;window.open('https://o-r-alab.myshopify.com/products/strategic-alignment-protocol?oracle_id='+n,'_blank')}
 </script>

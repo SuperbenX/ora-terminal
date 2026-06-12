@@ -116,15 +116,15 @@ select{width:100%;padding:12px;background:#fff;border:1px solid var(--border);co
 <div id="s3" class="hidden">
 <h2>>> 免费报告 <<</h2>
 <div class="report" id="report"></div>
-<button class="btn" onclick="unlock()" id="unlockBtn">[ 获取完整报告 ]</button>
+<button class="btn" onclick="unlock()" id="unlockBtn">[ 付费解锁完整版 ]</button>
 <button class="fbtn" onclick="downloadPDF()" id="pdfBtn" style="margin-top:6px">[ 下载 PDF ]</button>
 </div>
 
 <!-- 微信弹窗 -->
-<div id="wechatModal" class="modal hidden" onclick="if(event.target===this)closeWechat()">
+<div id="wechatModal" class="modal hidden">
 <div class="modal-inner" style="text-align:left">
-<h3 style="text-align:center">>> 完整战略报告 <<</h3>
-<p style="font-size:10px;color:#999;text-align:center;margin-bottom:12px">免费版仅含基础签位解读，付费版独享以下深度内容：</p>
+<h3 style="text-align:center">>> 付费完整版 <<</h3>
+<p style="font-size:10px;color:#999;text-align:center;margin-bottom:12px">免费版仅含基础签位解读，付费版（¥29.9）独享以下深度内容：</p>
 <div style="border:1px solid var(--border);padding:12px;margin-bottom:10px;background:var(--bg)">
 <div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><span style="display:inline-block;width:16px;height:16px;min-width:16px;border-radius:50%;background:#8b0000;color:#fff;font-size:8px;text-align:center;line-height:16px">+</span><div><b>局势洞察与卦象拆解</b><br><span style="font-size:9px;color:#888">深入分析签文的商业隐喻与博弈格局</span></div></div>
 <div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><span style="display:inline-block;width:16px;height:16px;min-width:16px;border-radius:50%;background:#8b0000;color:#fff;font-size:8px;text-align:center;line-height:16px">+</span><div><b>专项战略推演</b><br><span style="font-size:9px;color:#888">针对您所选场景的四层沙盘推演</span></div></div>
@@ -135,7 +135,7 @@ select{width:100%;padding:12px;background:#fff;border:1px solid var(--border);co
 </div>
 <button class="btn" onclick="copyWechat()" style="font-size:11px;margin-top:0">[ 复制微信号咨询 ]</button>
 <div id="copyMsg" class="copied" style="text-align:center"></div>
-<p style="margin-top:10px;font-size:9px;color:#999;text-align:center">添加微信发送签位和场景，获取完整战略报告</p>
+<p style="margin-top:10px;font-size:8px;color:#8b0000;text-align:center">* 完整报告为付费内容，添加微信请备注"报告"</p>
 <button class="fbtn" onclick="closeWechat()" style="margin-top:2px">[ 关闭 ]</button>
 </div>
 </div>

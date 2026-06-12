@@ -4,159 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>O.R.A 玄武山灵签终端</title>
-<script src="ora_data.js"></script>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-:root{--bg:#fefdfb;--text:#0f0f0f;--accent:#8b0000;--gold:#c4955a;--panel:#f9f8f6;--border:rgba(0,0,0,0.08)}
-body{background:var(--bg);color:var(--text);font-family:"PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;margin:0}
-.container{border:1px solid var(--border);width:90%;max-width:420px;padding:36px 32px;background:var(--panel);position:relative}
-.container::before{content:"安全节点: ORA-2026";position:absolute;top:-12px;left:20px;background:var(--bg);color:var(--accent);font-size:9px;padding:0 8px;letter-spacing:2px;border:1px solid var(--border)}
-h2{font-family:"Courier New",monospace;font-size:11px;color:var(--accent);letter-spacing:3px;margin-bottom:16px;text-align:center}
-label{display:block;font-size:10px;color:var(--accent);letter-spacing:2px;margin:12px 0 6px;font-weight:900}
-select{width:100%;padding:12px;background:#fff;border:1px solid var(--border);color:var(--text);font-size:13px;outline:none;border-radius:0;margin-bottom:4px}
-.btn{width:100%;padding:14px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-size:12px;font-weight:bold;letter-spacing:3px;cursor:pointer;transition:all 0.3s;border-radius:0;margin-top:8px}
-.btn:hover{background:var(--accent);color:#fff}
-.hidden{display:none!important}
-.report{padding:16px 0;text-align:left}
-.report .sn{font-family:"Courier New",monospace;font-size:18px;color:var(--accent);letter-spacing:2px}
-.report .nm{font-size:22px;margin:2px 0}
-.report .md{display:inline-block;border:1px solid rgba(139,0,0,0.25);padding:2px 10px;font-size:10px;color:var(--accent);margin-bottom:8px}
-.report .hr{border:0;height:1px;background:var(--border);margin:10px 0}
-.report .sh{font-size:9px;color:#666;letter-spacing:1px;margin-bottom:4px;text-transform:uppercase}
-.report .tx{font-size:12px;color:var(--text);margin-bottom:5px;line-height:1.5}
-.report .tx strong{color:var(--accent)}
-.report .badge{display:inline-block;background:rgba(196,149,90,0.08);border:1px solid rgba(196,149,90,0.12);padding:2px 10px;border-radius:3px;font-family:Inter,sans-serif;font-size:8px;letter-spacing:1px;color:var(--gold);text-transform:uppercase;margin-bottom:6px}
-.report h1{font-family:"Playfair Display",serif;font-size:26px;font-weight:400;margin:2px 0;letter-spacing:1px}
-.report .sub{font-size:14px;color:var(--gold);margin-bottom:6px}
-.report .gl{width:20px;height:1.5px;background:var(--gold);margin:8px 0 12px}
-.report .sec{margin-bottom:14px}
-.report .sh{font-family:Inter,sans-serif;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:#999;margin-bottom:4px}
-.report p{font-size:10pt;line-height:1.6;color:#555;margin:2px 0}
-.report strong{color:var(--gold);font-weight:500}
-.report .model{font-size:10pt;line-height:1.6;color:var(--gold);font-weight:500;margin:2px 0}
-.report .verse{margin:6px 0;padding:6px 10px;background:#f7f5f0;border-radius:3px;font-size:9.5pt;line-height:1.5;color:#666;font-style:italic}
-.report .cmd{border-left:2px solid var(--gold);padding:6px 10px;font-size:11px;color:var(--gold);line-height:1.4;margin:4px 0}
-.report .eg{border:1px solid var(--border);padding:6px 10px;font-size:11px;color:#999;line-height:1.4;margin:4px 0}
-.report .cv{border-top:1px solid var(--border);padding-top:10px;margin-top:8px;font-size:10pt;line-height:1.6;color:#666;font-style:italic}
-.report .report-section{margin:10px 0 4px;font-size:10px;color:var(--accent);letter-spacing:1px;font-weight:600}
-.report .rl{margin:2px 0 2px 8px;font-size:10pt;line-height:1.6;color:#555}
-.report .rl strong{color:var(--gold)}
-.report .bar{display:flex;align-items:center;margin:3px 0}
-.report .bar .bl{width:48px;font-size:9px;color:#666}
-.report .bar .bt{flex:1;height:4px;background:#1a1a1a;margin:0 6px;border-radius:2px}
-.report .bar .bf{height:4px;border-radius:2px}
-.report .bar .br{width:20px;text-align:right;font-size:10px}
-.loading{text-align:center;padding:16px;font-family:"Courier New",monospace;font-size:10px;color:var(--accent);animation:pulse 1.5s infinite}
-@keyframes pulse{0%{opacity:0.3}50%{opacity:1}100%{opacity:0.3}}
-.coin{display:flex;gap:14px;justify-content:center;margin:10px 0}
-.coin .c{width:46px;height:46px;border:2px solid rgba(0,0,0,0.12);display:flex;align-items:center;justify-content:center;font-size:14px;color:#999;font-family:"Courier New",monospace}
-.fbtn{width:100%;padding:10px;background:transparent;border:1px solid var(--accent);color:var(--accent);font-size:11px;letter-spacing:2px;cursor:pointer;margin:3px 0}
-.fbtn:hover{background:var(--accent);color:#fff}
-#msg{font-size:10px;color:var(--accent);text-align:center;margin:6px 0}
-.bn{text-align:center;font-size:32px;margin:8px 0;font-family:"Courier New",monospace;letter-spacing:4px}
-/* 仪式指引页面样式 */
-.guide{text-align:left;padding:4px 0}
-.guide .warn{border:1px solid var(--accent);padding:12px;font-size:10px;color:var(--accent);line-height:1.6;margin-bottom:16px}
-.guide .step{display:flex;gap:12px;margin-bottom:14px;align-items:flex-start}
-.guide .sn{width:24px;height:24px;min-width:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:10px;font-weight:bold;display:flex;align-items:center;justify-content:center;font-family:"Courier New",monospace}
-.guide .st{font-size:11px;line-height:1.6;color:#444}
-.guide .st strong{color:var(--accent);font-weight:600}
-/* 微信弹窗 */
-.modal{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:100}
-.modal-inner{background:var(--panel);border:1px solid var(--border);max-width:340px;width:90%;padding:32px;text-align:center}
-.modal h3{font-family:"Courier New",monospace;font-size:10px;color:var(--accent);letter-spacing:2px;margin-bottom:10px}
-.modal .wechat{font-family:"Courier New",monospace;font-size:18px;color:var(--text);letter-spacing:2px;margin:10px 0;padding:12px;background:var(--bg);border:1px solid var(--border)}
-.modal p{font-size:11px;color:#666;line-height:1.5;margin-bottom:8px}
-.modal .copied{font-size:10px;color:var(--accent);margin-top:6px;min-height:16px}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#fefdfb;color:#0f0f0f;font-family:"PingFang SC","Microsoft YaHei",sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.box{border:1px solid rgba(0,0,0,0.08);padding:40px;max-width:400px;width:90%;text-align:center;background:#f9f8f6}
+h2{font-family:"Courier New",monospace;font-size:11px;color:#8b0000;letter-spacing:3px;margin-bottom:16px}
+p{font-size:13px;line-height:1.7;color:#555;margin:12px 0}
+a{display:inline-block;padding:12px 30px;background:#8b0000;color:#fff;text-decoration:none;font-size:12px;letter-spacing:2px;margin-top:8px}
+a:hover{background:#6b0000}
+.f{font-size:10px;color:#999;margin-top:16px}
 </style>
 </head>
 <body>
-<div class="container" id="app">
-
-<div id="s1">
-<h2>>> 玄武山灵签系统 <<</h2>
-<label>真实年龄</label>
-<select id="age"><option value="">选择年龄段...</option>
-<option value="25岁以下">25岁以下</option><option value="25-35岁">25-35岁</option><option value="35-45岁">35-45岁</option><option value="45-55岁">45-55岁</option><option value="55岁以上">55岁以上</option></select>
-<label>咨询场景</label>
-<select id="topic"><option value="">选择场景...</option>
-<option value="求财">求财</option><option value="谋事">谋事</option><option value="婚姻">婚姻</option><option value="生意综合">生意综合</option><option value="功名">功名</option><option value="合伙">合伙</option><option value="家宅">家宅</option><option value="占病">占病</option>
-<option value="学艺">学艺</option><option value="开铺">开铺</option><option value="置货">置货</option><option value="出外">出外</option>
-<option value="失物">失物</option><option value="六甲">六甲</option><option value="官讼">官讼</option><option value="行人">行人</option></select>
-<button class="btn" onclick="go2()">[ 开始校准 ]</button>
+<div class="box">
+<h2>>> 服务已迁移 <<</h2>
+<p>O.R.A 玄武山灵签终端已升级至全新服务器，体验更稳定、更完整。</p>
+<a href="http://134.175.157.181:9090/">进入新版终端 →</a>
+<div class="f">自动跳转中...</div>
 </div>
-
-<!-- 仪式指引页 s1.5 -->
-<div id="s15" class="hidden">
-<h2>>> 校准须知 <<</h2>
-<div class="guide">
-<div class="warn">你即将启动的不是一次迷信预测，而是一场针对个人命运的<b>战略级推演</b>。请按以下步骤做好准备：</div>
-<div class="step"><div class="sn">1</div><div class="st"><b>通讯静默</b><br>关闭不必要的通讯设备，切断外界干扰，确保不被打扰。</div></div>
-<div class="step"><div class="sn">2</div><div class="st"><b>调节呼吸</b><br>深呼吸三次，让心率进入平静状态，保持意念专注。</div></div>
-<div class="step"><div class="sn">3</div><div class="st"><b>默念所求</b><br>心中默念你所问的具体事项（一事一签，诚心求签）。</div></div>
-</div>
-<button class="btn" onclick="guideContinue()">[ 我已准备好，开始抽签 ]</button>
-</div>
-
-<div id="s2" class="hidden">
-<h2>>> 摇签台 <<</h2>
-<button class="btn" onclick="draw()" id="drawBtn">[ 点击摇签 ]</button>
-<div class="loading hidden" id="loading">摇签中...</div>
-<div class="bn" id="signNum">--</div>
-<div style="text-align:center;font-size:11px;color:#666;letter-spacing:1px" id="signName"></div>
-<div id="calib" class="hidden">
-<div class="coin"><div class="c" id="c1">?</div><div class="c" id="c2">?</div></div>
-<button class="fbtn" onclick="flip()" id="flipBtn">[ 掷圣杯 ]</button>
-<div id="msg"></div>
-<button class="fbtn hidden" onclick="retryDraw()" id="retryBtn">[ 重新摇签 ]</button>
-<button class="btn hidden" onclick="go3()" id="nextBtn">[ 查看报告 ]</button>
-</div>
-</div>
-
-<div id="s3" class="hidden">
-<h2>>> 免费报告 <<</h2>
-<div class="report" id="report"></div>
-<button class="btn" onclick="unlock()" id="unlockBtn">[ 付费解锁完整版 ]</button>
-<button class="fbtn" onclick="downloadPDF()" id="pdfBtn" style="margin-top:6px">[ 下载 PDF ]</button>
-</div>
-
-<!-- 微信弹窗 -->
-<div id="wechatModal" class="modal hidden">
-<div class="modal-inner" style="text-align:left">
-<h3 style="text-align:center">>> 付费完整版 <<</h3>
-<p style="font-size:10px;color:#999;text-align:center;margin-bottom:12px">免费版仅含基础签位解读，付费版（¥19.9）独享以下深度内容：</p>
-<div style="border:1px solid var(--border);padding:12px;margin-bottom:10px;background:var(--bg)">
-<div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><span style="display:inline-block;width:16px;height:16px;min-width:16px;border-radius:50%;background:#8b0000;color:#fff;font-size:8px;text-align:center;line-height:16px">+</span><div><b>局势洞察与卦象拆解</b><br><span style="font-size:9px;color:#888">深入分析签文的商业隐喻与博弈格局</span></div></div>
-<div style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-start"><span style="display:inline-block;width:16px;height:16px;min-width:16px;border-radius:50%;background:#8b0000;color:#fff;font-size:8px;text-align:center;line-height:16px">+</span><div><b>专项战略推演</b><br><span style="font-size:9px;color:#888">针对您所选场景的四层沙盘推演</span></div></div>
-<div style="display:flex;gap:8px;align-items:flex-start"><span style="display:inline-block;width:16px;height:16px;min-width:16px;border-radius:50%;background:#8b0000;color:#fff;font-size:8px;text-align:center;line-height:16px">+</span><div><b>终端执行模块</b><br><span style="font-size:9px;color:#888">72小时行动指令 + 执行窗口提示</span></div></div>
-</div>
-<div style="text-align:center;margin-bottom:8px">
-<div class="wechat" id="wechatId" style="display:inline-block;min-width:180px">ora20260614</div>
-</div>
-<button class="btn" onclick="copyWechat()" style="font-size:11px;margin-top:0">[ 复制微信号咨询 ]</button>
-<div id="copyMsg" class="copied" style="text-align:center"></div>
-<p style="margin-top:10px;font-size:8px;color:#8b0000;text-align:center">* 完整报告为付费内容，添加微信请备注"报告"</p>
-<button class="fbtn" onclick="closeWechat()" style="margin-top:2px">[ 关闭 ]</button>
-</div>
-</div>
-
-</div>
-
-<script>
-const BC=["#8B0000","#c4955a","#2a6a4a","#4a6a8a","#8a6a4a"],RK=["逆商","红利","决断力","环境","内耗"];
-const EM={"求财":"绿碧玺 · 深绿配金色","谋事":"黑碧玺 · 黑配白","婚姻":"粉碧玺 · 玫瑰配奶油","占病":"绿碧玺 · 舒缓绿色","家宅":"西瓜碧玺 · 暖中性色","功名":"蓝碧玺 · 深蓝配银","生意综合":"黑碧玺 + 绿碧玺","合伙":"绿碧玺 + 金色","学艺":"黄碧玺 · 明亮点缀","开铺":"黑碧玺 · 金色点缀","置货":"绿碧玺 · 大地色","出外":"黑碧玺 · 出行护身","失物":"碧玺专注石","六甲":"西瓜碧玺","官讼":"蓝碧玺","行人":"黑碧玺"};
-const CC={"爆发期":"此刻即是您的时机，势能真实存在，全力推进。","蛰伏期":"力量在地下生长，信任这个过程。","重组期":"旧的必须先结束，新的才能开始。","破局期":"突破就在眼前，最后的障碍即将清除。","盘整期":"战略耐心将在未来获得十倍回报。","危机期":"保存实力，信任你的根基，这一切会过去。","避险期":"智者知道何时撤退。择日再战。"};
-function pr(s){const r={逆商:0,红利:0,决断力:0,环境:0,内耗:0};(s||'').match(/[一-鿿]+?\d+/g)?.forEach(m=>{const k=m.match(/[一-鿿]+/)?.[0],v=parseInt(m.match(/\d+/)?.[0]);if(k&&r[k]!==void 0)r[k]=v});return r}
-const SERVER_URL='http://134.175.157.181:8080';let st={age:'',topic:'',sn:'',sd:null,orderId:'',email:''},freeData={};(function(){const p=new URLSearchParams(location.search);st.orderId=p.get('order_id')||'';st.email=p.get('email')||''})();
-function go2(){st.age=document.getElementById('age').value;st.topic=document.getElementById('topic').value;if(!st.age||!st.topic)return alert("请先选择年龄段和咨询场景");document.getElementById('s1').classList.add('hidden');document.getElementById('s15').classList.remove('hidden')}
-function guideContinue(){document.getElementById('s15').classList.add('hidden');document.getElementById('s2').classList.remove('hidden')}
-function draw(){const btn=document.getElementById('drawBtn'),ld=document.getElementById('loading');btn.classList.add('hidden');ld.classList.remove('hidden');let c=0;const i=setInterval(()=>{const r=Math.floor(Math.random()*51)+1;k="第"+["一","二","三","四","五","六","七","八","九","十","十一","十二","十三","十四","十五","十六","十七","十八","十九","二十","二十一","二十二","二十三","二十四","二十五","二十六","二十七","二十八","二十九","三十","三十一","三十二","三十三","三十四","三十五","三十六","三十七","三十八","三十九","四十","四十一","四十二","四十三","四十四","四十五","四十六","四十七","四十八","四十九","五十","五十一"][r-1]+"签";document.getElementById('signNum').textContent=k;document.getElementById('signName').textContent=ORA_DATA[k]?.name||'';c++;if(c>25){clearInterval(i);ld.classList.add('hidden');st.sn=k;st.sd=ORA_DATA[k];document.getElementById('calib').classList.remove('hidden')}},60)}
-function flip(){const c1=Math.random()>0.5?'阳':'阴',c2=Math.random()>0.5?'阳':'阴';document.getElementById('c1').textContent=c1;document.getElementById('c1').style.color='#0f0f0f';document.getElementById('c1').style.borderColor='#8b0000';document.getElementById('c2').textContent=c2;document.getElementById('c2').style.color='#0f0f0f';document.getElementById('c2').style.borderColor='#8b0000';const msg=document.getElementById('msg');document.getElementById('flipBtn').classList.add('hidden');if(c1!==c2){msg.innerHTML="【圣杯】校准通过";document.getElementById('nextBtn').classList.remove('hidden')}else{const t=c1==='阳'?'笑':'阴';msg.innerHTML="【"+t+"杯】此签不作数，请重新摇签";document.getElementById('retryBtn').classList.remove('hidden')}}
-function retryDraw(){['c1','c2'].forEach(id=>{const el=document.getElementById(id);el.textContent='?';el.style.color='#999';el.style.borderColor='rgba(0,0,0,0.12)'});document.getElementById('msg').textContent='';document.getElementById('signNum').textContent='--';document.getElementById('signName').textContent='';st.sn='';st.sd=null;document.getElementById("flipBtn").classList.remove("hidden");document.getElementById('retryBtn').classList.add('hidden');document.getElementById('nextBtn').classList.add('hidden');draw()}
-function go3(){document.getElementById('s2').classList.add('hidden');document.getElementById('s3').classList.remove('hidden');const d=st.sd;if(!d)return;const eg=EM[st.topic]||"黑碧玺";let con='玄武山的智慧指引着您的下一步。';for(let k in CC){if(d.model&&d.model.indexOf(k)>=0){con=CC[k];break}}const rp=document.getElementById('report');if(freeData[st.topic]&&freeData[st.topic][st.sn]&&freeData[st.topic][st.sn][st.age]){rp.innerHTML='<div class="badge">'+st.topic+'</div><h1>'+st.sn+'</h1><div class="sub">'+d.name+'</div><div class="gl"></div>'+freeData[st.topic][st.sn][st.age]+'<div class="sec"><div class="sh">&#9670; 能量指南</div><div class="eg">'+eg+'</div></div><div class="cv">'+con+'</div>';return}rp.innerHTML='<div class="loading" style="animation:none;padding:30px">加载报告中...</div>';fetch('free_reports/'+encodeURIComponent(st.topic)+'.json').then(r=>r.json()).then(data=>{freeData[st.topic]=data;const h=data[st.sn]&&data[st.sn][st.age];if(h){rp.innerHTML='<div class="badge">'+st.topic+'</div><h1>'+st.sn+'</h1><div class="sub">'+d.name+'</div><div class="gl"></div>'+h+'<div class="sec"><div class="sh">&#9670; 能量指南</div><div class="eg">'+eg+'</div></div><div class="cv">'+con+'</div>'}else{rp.innerHTML='<div class="loading" style="animation:none;padding:20px;color:#c00">未找到该报告</div>'}}).catch(function(){const bars='';RK.forEach((k,i)=>{const v=pr(d.radar)[k];bars+='<div class="bar"><span class="bl">'+k+'</span><div class="bt"><div class="bf" style="width:'+v+'%;background:'+BC[i]+'"></div></div><span class="br" style="color:'+BC[i]+'">'+v+'</span></div>'});rp.innerHTML='<div class="badge">'+st.topic+'</div><h1>'+st.sn+'</h1><div class="sub">'+d.name+'</div><div class="gl"></div><div class="sec"><div class="sh">&#9670; 卷宗还原</div><p><strong>'+d.ji+'</strong></p><p>'+d.story+'</p>'+(d.poem?'<div class="verse">签诗 · '+d.poem+'</div>':'')+(d.fortune?'<p>'+d.fortune+'</p>':'')+(d.yearly?'<p><strong>岁君</strong>：'+d.yearly+'</p>':'')+'</div><div class="sec"><div class="sh">&#9670; 战略态</div><p class="model">'+d.model+'</p><p><strong>核心优势</strong>：'+d.adv+'</p><p><strong>致命盲区</strong>：'+d.blind+'</p></div><div class="sec"><div class="sh">&#9670; 五维势能</div>'+bars+'</div><div class="sec"><div class="sh">&#9670; 核心指令</div><div class="cmd">'+d.cmd+'</div></div><div class="sec"><div class="sh">&#9670; 能量指南</div><div class="eg">'+eg+'</div></div><div class="cv">'+con+'</div>'})}
-function downloadPDF(){const btn=document.getElementById("pdfBtn");const orig=btn.innerHTML;btn.innerHTML="生成中...";const d=st.sd;if(!d){btn.innerHTML=orig;return};const eg=EM[st.topic]||"黑碧玺";let content=[];content.push('<h1>'+st.sn+'</h1><p class="m">'+d.name+'</p><p class="m" style="color:#c4955a">'+st.topic+' · '+st.age+'</p><hr>');content.push('<p><b>吉凶：</b>'+d.ji+'</p>');content.push('<p>'+d.story+'</p>');if(d.poem)content.push('<div class="q">签诗 · '+d.poem+'</div>');if(d.fortune)content.push('<p><b>综合运势：</b>'+d.fortune+'</p>');if(d.yearly)content.push('<p><b>岁君：</b>'+d.yearly+'</p>');content.push('<hr><p><b>战略态：</b>'+d.model+'</p><p><b>核心优势：</b>'+d.adv+'</p><p><b>致命盲区：</b>'+d.blind+'</p><hr><div class="q">核心指令</div><div class="c">'+d.cmd+'</div><hr><p><b>能量指南：</b>'+eg+'</p>');/* try to use rich free report content if loaded */if(freeData[st.topic]&&freeData[st.topic][st.sn]&&freeData[st.topic][st.sn][st.age]){content=[];content.push('<h1>'+st.sn+'</h1><p class="m">'+d.name+'</p><p class="m" style="color:#c4955a">'+st.topic+' · '+st.age+'</p><hr>');content.push(freeData[st.topic][st.sn][st.age]);content.push('<hr><p><b>能量指南：</b>'+eg+'</p>')}const h='<html><head><meta charset="utf-8"><title>'+st.sn+'</title><style>body{font-family:serif;padding:30px;font-size:11pt;line-height:1.7;color:#333;max-width:700px;margin:auto}h1{font-size:20pt;margin:0 0 2px}.m{color:#c4955a;font-size:10pt;margin:2px 0}hr{border:0;height:1px;background:#ddd;margin:12px 0}p{margin:5px 0}b{color:#8b0000}.q{border-left:2px solid #c4955a;padding:5px 10px;margin:8px 0;background:#f7f5f0;font-style:italic}.c{border-left:2px solid #c4955a;padding:8px 12px;margin:6px 0;color:#c4955a;font-weight:500}.f{margin-top:30px;border-top:1px solid #ddd;padding-top:10px;font-size:8pt;color:#aaa;text-align:center}</style></head><body>'+content.join('')+'<p class="f">O.R.A 玄武山灵签报告 · 免费版</p></body></html>';const b=new Blob([h],{type:"text/html"});const u=URL.createObjectURL(b);const w=window.open(u);setTimeout(function(){w.print()},500);btn.innerHTML=orig};function unlock(){document.getElementById('wechatModal').classList.remove('hidden')}
-function copyWechat(){const w=document.getElementById('wechatId').textContent;if(navigator.clipboard){navigator.clipboard.writeText(w).then(()=>{document.getElementById('copyMsg').textContent='已复制：'+w})}else{document.getElementById('copyMsg').textContent='微信号：'+w}}
-function closeWechat(){document.getElementById('wechatModal').classList.add('hidden');document.getElementById('copyMsg').textContent=''}
-</script>
+<script>setTimeout(function(){window.location.href="http://134.175.157.181:9090/"},3000)</script>
 </body>
 </html>
